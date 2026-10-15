@@ -14,8 +14,12 @@ Non-negotiables:
 
 ## Stack
 
-Streamlit + Gemini (`gemini-2.5-flash`, structured JSON output) + Firestore
+Streamlit + Gemini (`gemini-3.5-flash`, structured JSON output) + Firestore
 (hazard register) + Cloud Storage (evidence) + Cloud Run (deploy).
+
+Note: `gemini-2.5-flash` (the model named in the original build spec) has been
+retired by Google; `gemini-3.5-flash` is the current stable equivalent as of
+this build. `lib/gemini.py` retries automatically on transient 503s.
 
 ## Local setup
 
