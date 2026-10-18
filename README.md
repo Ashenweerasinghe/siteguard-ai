@@ -1,5 +1,12 @@
 # SiteGuard AI -- by Ceylon InnovAI
 
+**Google AI Hackathon 2026 · Theme: Manufacturing — Intelligent Operations & Industrial Efficiency**
+Team Ceylon InnovAI: Maniesha Abeysekera (team leader), Ashen Weerasinghe
+
+- **Live app:** https://siteguard-ai-463547683061.us-central1.run.app/ (login: `demo` / `Safeguard@123`)
+- **Demo video:** https://www.youtube.com/watch?v=BarPClAyHYA
+- **Pitch deck:** `SiteGuard AI - AI Builder Cup Submission.pdf`
+
 AI-assisted hazard review for factory floors, warehouses and industrial sites. A reviewer uploads a site photo and
 voice note, Gemini flags potential hazards and proposes a risk level, and a human confirms every state change --
 hazard confirmed, action assigned, closure. On a later visit, new evidence is compared against the original finding
