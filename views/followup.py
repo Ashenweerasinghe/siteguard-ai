@@ -94,7 +94,7 @@ def _render_submit(by_id: dict, ids: list[str], idx: int) -> None:
     if not photo:
         st.error("Please complete the required field(s): After photo", icon=":material/error:")
         return
-    with st.spinner("SafeGuard AI is comparing before/after evidence..."):
+    with st.spinner("SiteGuard AI is comparing before/after evidence..."):
         try:
             comparison = gemini.analyze_followup(
                 original_image_bytes=store.read_evidence(h["source_photo_url"]),

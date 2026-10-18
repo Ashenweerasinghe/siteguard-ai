@@ -36,7 +36,7 @@ def render() -> None:
 
     a, b = st.columns([3, 1.3], vertical_alignment="center")
     a.markdown('<div class="sg-section"><div class="sg-h3">Closed hazards</div></div>', unsafe_allow_html=True)
-    b.download_button("Export register (CSV)", report.register_csv(hazards), file_name="safeguard_register.csv",
+    b.download_button("Export register (CSV)", report.register_csv(hazards), file_name="siteguard_register.csv",
                       mime="text/csv", icon=":material/table_view:", width="stretch", key="rp_csv")
     if not closed:
         ui.empty_state("No closed hazards yet. Closure reports appear here once a reviewer approves closure.", "description")

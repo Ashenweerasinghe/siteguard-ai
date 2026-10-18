@@ -13,7 +13,7 @@ def _brand_panel() -> str:
     return f"""
     <div class="sg-login-brand">
       {ui.brand()}
-      <div class="sg-login-title">SafeGuard <span>AI</span></div>
+      <div class="sg-login-title">SiteGuard <span>AI</span></div>
       <p class="sg-lead">Safer Workplaces<br>Smarter Decisions</p>
       <div class="sg-login-steps"><span>See it</span><span>Report it</span><span>Resolve it</span><span>Verify it</span></div>
       <img class="sg-login-helmet" src="{ui.asset_uri('login_helmet.jpg')}" alt="">

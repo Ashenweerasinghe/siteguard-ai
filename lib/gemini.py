@@ -15,7 +15,7 @@ from google import genai
 from google.genai import errors as genai_errors
 from google.genai import types
 
-from .schema import GeminiFinding, GeminiFollowup
+from .schema import GeminiFinding, GeminiFollowup, SiteInsights
 
 MODEL_NAME = "gemini-3.5-flash"
 
@@ -157,6 +157,59 @@ this particular hazard, remains inconclusive, or shows the hazard is still prese
             system_instruction=_SYSTEM_INSTRUCTION,
             response_mime_type="application/json",
             response_schema=GeminiFollowup,
+        ),
+    )
+    return response.parsed
+
+
+_INSIGHTS_SYSTEM_INSTRUCTION = """You are a site-safety operations analyst reading an \
+aggregated hazard register for a site lead. You interpret; you never count. Every figure \
+you cite must come from the digest you are given, quoted back as it appears -- if a number \
+is not in the digest, you do not have it, and you say so rather than estimating. You give \
+recommendations, never instructions the system will act on: a human decides what the site \
+actually does. You never certify a site as "safe" or "compliant"; you describe what the \
+record shows and what it cannot show. If the register is too small or too skewed to support \
+a pattern read, set confidence to "uncertain" and say which reads are unsupported rather \
+than manufacturing patterns out of a handful of records."""
+
+
+def analyze_site_insights(digest: str, record_count: int) -> SiteInsights:
+    """Third Gemini call: read the whole register, not one photo.
+
+    Moves the app from per-photo detection to operational insight -- recurring
+    hazards, where corrective work is slipping, and where to focus next.
+    """
+    if mock_enabled():
+        from .mock_ai import mock_insights
+
+        return mock_insights(record_count)
+
+    client = _client()
+
+    prompt = f"""Below is a deterministic digest of a construction and industrial site's \
+hazard register. It was aggregated in code; the counts are exact.
+
+{digest}
+
+Read this as a site-safety operations analyst briefing a site lead at the start of the week.
+Identify patterns that repeat across records -- a hazard category concentrating in one \
+location, corrective work slipping in one team, categories that keep recurring after closure, \
+a reporting trend that is rising or falling. Recommend 2-4 focus areas, most important first, \
+each one concrete enough to act on this week and owned by a team that actually appears above.
+Call out where corrective work is overdue, and name the blind spots: what this register \
+cannot tell you, so the reader does not over-read it. Reopened records and findings flagged \
+uncertain are both signals worth reading.
+There are {record_count} confirmed records. If that is too few to support a pattern read, \
+say so in confidence_note and set confidence to "uncertain"."""
+
+    response = _generate_with_retry(
+        client,
+        model=MODEL_NAME,
+        contents=[prompt],
+        config=types.GenerateContentConfig(
+            system_instruction=_INSIGHTS_SYSTEM_INSTRUCTION,
+            response_mime_type="application/json",
+            response_schema=SiteInsights,
         ),
     )
     return response.parsed

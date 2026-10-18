@@ -1,6 +1,6 @@
-"""SafeGuard AI design system: theme CSS, brand, pills, cards and formatting helpers.
+"""SiteGuard AI design system: theme CSS, brand, pills, cards and formatting helpers.
 
-Visual language follows the Ceylon Innvoai design: navy sidebar, white cards on a
+Visual language follows the Ceylon InnovAI design: navy sidebar, white cards on a
 cool-grey canvas, blue->cyan gradient primary buttons, soft coloured status pills.
 
 Alignment rule used everywhere: thumbnails are rendered with a fixed box and
@@ -214,8 +214,8 @@ def brand(compact: bool = False, dark: bool = True) -> str:
     tone = "" if dark else " sg-brand-light"
     tagline = "" if compact else '<div class="sg-brand-tag">REAL PROBLEMS. SMARTER SOLUTIONS.</div><div class="sg-brand-sub">SRI LANKA</div>'
     return (
-        f'<div class="{cls}{tone}"><img src="{asset_uri("logo_head.png")}" alt="Ceylon Innvoai logo">'
-        f'<div><div class="sg-brand-name">CEYLON <span>INNVOAI</span></div>{tagline}</div></div>'
+        f'<div class="{cls}{tone}"><img src="{asset_uri("logo_head.png")}" alt="Ceylon InnovAI logo">'
+        f'<div><div class="sg-brand-name">CEYLON <span>INNOVAI</span></div>{tagline}</div></div>'
     )
 
 

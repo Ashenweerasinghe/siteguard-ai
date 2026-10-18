@@ -1,4 +1,4 @@
-"""Firestore + Cloud Storage backend for SafeGuard AI.
+"""Firestore + Cloud Storage backend for SiteGuard AI.
 
 Only storage primitives live here; the hazard workflow rules (who can move a
 hazard to which state, what gets written to history) live in lib/store.py so the

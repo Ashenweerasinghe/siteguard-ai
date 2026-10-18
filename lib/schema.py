@@ -1,4 +1,4 @@
-"""Shared type definitions for SafeGuard AI (formerly SiteGuard AI)."""
+"""Shared type definitions for SiteGuard AI."""
 
 from __future__ import annotations
 
@@ -102,6 +102,36 @@ class GeminiFollowup(BaseModel):
     closure_supported: bool = Field(description="Whether the new evidence supports closing the hazard.")
     confidence: Confidence = Field(description="'confirmed' if the comparison is clear, 'uncertain' if inconclusive.")
     reasoning: str = Field(description="Why closure is or isn't supported, in reviewer-facing language.")
+
+
+class InsightPattern(BaseModel):
+    """One recurring pattern Gemini reads out of the register."""
+
+    pattern: str = Field(description="The recurring pattern in one short phrase, e.g. 'Walkway obstructions cluster at Loading Dock B'.")
+    evidence: str = Field(description="Which counts in the supplied digest support this, quoted back concretely.")
+    why_it_matters: str = Field(description="One sentence on the operational consequence if it continues.")
+
+
+class InsightFocus(BaseModel):
+    """A recommended focus area. A recommendation, never an instruction the app acts on."""
+
+    area: str = Field(description="The location, team, or hazard category to focus on.")
+    recommendation: str = Field(description="One concrete, operational step a site lead could take this week.")
+    rationale: str = Field(description="Why this one, grounded in the digest.")
+    suggested_owner: str = Field(default="", description="The team best placed to own it, from the teams present in the digest.")
+
+
+class SiteInsights(BaseModel):
+    """Register-wide operational summary. Gemini interprets; every number in the
+    digest it reasons over was computed deterministically in Python first."""
+
+    headline: str = Field(description="One sentence on the state of the register right now, in plain operational language.")
+    recurring_patterns: list[InsightPattern] = Field(default_factory=list, description="2-4 patterns that repeat across records.")
+    focus_areas: list[InsightFocus] = Field(default_factory=list, description="2-4 recommended focus areas, most important first.")
+    accountability: list[str] = Field(default_factory=list, description="0-4 short notes on teams or locations where corrective work is slipping.")
+    blind_spots: list[str] = Field(default_factory=list, description="1-3 things this register cannot tell you, so the reader does not over-read it.")
+    confidence: Confidence = Field(description="'confirmed' if the register holds enough records to support these reads, 'uncertain' if the sample is too small or too skewed.")
+    confidence_note: str = Field(default="", description="One sentence on what limits confidence, especially when 'uncertain'.")
 
 
 class RiskResult(BaseModel):

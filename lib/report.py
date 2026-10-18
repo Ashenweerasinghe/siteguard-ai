@@ -48,7 +48,7 @@ def hazard_report_html(h: dict[str, Any]) -> str:
  .note{{background:#EAF2FF;color:#1849A9;padding:10px 12px;border-radius:8px;font-size:12px;margin-top:22px}}
  @media print{{body{{margin:0}}}}
 </style></head><body>
-<header><div><div class="brand">SAFEGUARD <span>AI</span></div><div style="font-size:12px;color:#5B6B80">Ceylon Innvoai - Hazard record report</div></div>
+<header><div><div class="brand">SITEGUARD <span>AI</span></div><div style="font-size:12px;color:#5B6B80">Ceylon InnovAI - Hazard record report</div></div>
 <div style="text-align:right"><h1>{e(ui.hazard_ref(h))}</h1><div style="font-size:12px">Status: <b>{e(ui.status_label(h))}</b></div></div></header>
 <h2>{e(ui.hazard_title(h))}</h2>
 <table>

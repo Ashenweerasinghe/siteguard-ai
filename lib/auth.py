@@ -1,4 +1,4 @@
-"""Username/password login for SafeGuard AI.
+"""Username/password login for SiteGuard AI.
 
 Passwords are stored only as salted PBKDF2-SHA256 hashes. Users come from (first
 match wins):

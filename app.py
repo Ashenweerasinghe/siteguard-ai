@@ -1,4 +1,4 @@
-"""SafeGuard AI -- Streamlit entry point.
+"""SiteGuard AI -- Streamlit entry point.
 
 Login gate -> custom navy sidebar -> page router (views/*).
 
@@ -19,6 +19,7 @@ from views import (  # noqa: E402
     analytics,
     dashboard,
     followup,
+    insights,
     login,
     notifications_page,
     observe,
@@ -29,7 +30,7 @@ from views import (  # noqa: E402
 )
 
 st.set_page_config(
-    page_title="SafeGuard AI | Ceylon Innvoai",
+    page_title="SiteGuard AI | Ceylon InnovAI",
     page_icon=str(ui.BRAND / "logo_head.png"),
     layout="wide",
     initial_sidebar_state="auto",
@@ -53,6 +54,7 @@ ROUTES = {
     "followup": followup.render,
     "reports": reports.render,
     "analytics": analytics.render,
+    "insights": insights.render,
     "notifications": notifications_page.render,
     "settings": settings.render,
 }

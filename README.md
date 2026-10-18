@@ -1,4 +1,4 @@
-# SafeGuard AI (formerly SiteGuard AI) -- by Ceylon Innvoai
+# SiteGuard AI -- by Ceylon InnovAI
 
 AI-assisted construction-site hazard review. A reviewer uploads a site photo and
 voice note, Gemini flags potential hazards and proposes a risk level, and a human
@@ -140,7 +140,7 @@ lib/risk.py                Deterministic risk matrix (not a Gemini call)
 lib/schema.py              Shared type definitions
 lib/demo_seed.py           Fabricated records covering every workflow state
 assets/brand/              Logo / hero images cropped from the UI design
-assets/test-images/        Curated test set (placeholders -- replace with real photos)
+assets/test-images/        Real site photos from Pexels (see SOURCES.md)
 scripts/seed_test_data.py  Seeds demo records (works on either backend)
 scripts/hash_password.py   Creates a password hash for a new user
 ```

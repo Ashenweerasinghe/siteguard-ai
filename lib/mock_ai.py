@@ -8,7 +8,7 @@ follows the non-negotiables: "evidence suggests", never "safe" or "fixed".
 
 from __future__ import annotations
 
-from .schema import GeminiFinding, GeminiFollowup
+from .schema import GeminiFinding, GeminiFollowup, InsightFocus, InsightPattern, SiteInsights
 
 _PRESETS = {
     "obstructed_walkway": dict(
@@ -70,6 +70,48 @@ def mock_finding(image_name: str, note: str) -> GeminiFinding:
         responsible_team=p["team"],
         additional_evidence=p["evidence"],
         reasoning="[Demo AI] Preset finding chosen from the file name and note -- not a real model call.",
+    )
+
+
+def mock_insights(record_count: int) -> SiteInsights:
+    return SiteInsights(
+        headline=(
+            f"[Demo AI] Preset summary over {record_count} records -- walkway obstructions dominate the "
+            "register and closure is slowest where corrective work sits with one team."
+        ),
+        recurring_patterns=[
+            InsightPattern(
+                pattern="Walkway obstructions concentrate in loading and delivery areas",
+                evidence="Access obstruction is the most common category, and the busiest location's top category matches it.",
+                why_it_matters="Egress routes narrowing at delivery points delays evacuation when it matters most.",
+            ),
+            InsightPattern(
+                pattern="Reopened records cluster where closure evidence was thin",
+                evidence="The digest shows reopened records alongside findings the model itself flagged uncertain.",
+                why_it_matters="Closure that is not evidenced gets reversed, and the hazard stays live longer than the register suggests.",
+            ),
+        ],
+        focus_areas=[
+            InsightFocus(
+                area="Loading and delivery set-down",
+                recommendation="Mark a set-down zone clear of the egress route and brief the delivery crew this week.",
+                rationale="Repeat obstructions in the same location point at where material lands, not at who walks there.",
+                suggested_owner="Warehouse Operations",
+            ),
+            InsightFocus(
+                area="Overdue corrective actions",
+                recommendation="Re-sequence the overdue actions by risk level and confirm owners at the Monday stand-up.",
+                rationale="Overdue work is concentrated rather than spread, so a single conversation clears most of it.",
+                suggested_owner="Safety Team",
+            ),
+        ],
+        accountability=["[Demo AI] Overdue actions are concentrated in one or two teams in this preset."],
+        blind_spots=[
+            "The register only holds what someone photographed -- unreported areas look clean here.",
+            "Closure speed reflects when evidence was submitted, not when the fix was actually made.",
+        ],
+        confidence="uncertain",
+        confidence_note="[Demo AI] Preset output -- not a real model call. Offline demo mode is on.",
     )
 
 

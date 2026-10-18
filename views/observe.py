@@ -55,7 +55,7 @@ def _reset(page: str | None = None) -> None:
 
 def render() -> None:
     obs = _obs()
-    ui.page_header("New Observation", "See it, report it, and let SafeGuard AI help you assess it.",
+    ui.page_header("New Observation", "See it, report it, and let SiteGuard AI help you assess it.",
                    actions=header_actions(False))
     badges = ui.demo_badges()
     if badges:
@@ -181,7 +181,7 @@ def _step_capture(obs: dict) -> None:
 
 def _run_analysis(obs: dict) -> None:
     obs.pop("ai_error", None)
-    with st.spinner("SafeGuard AI is examining the evidence..."):
+    with st.spinner("SiteGuard AI is examining the evidence..."):
         try:
             finding = gemini.analyze_hazard(
                 image_bytes=obs["photo_bytes"],
@@ -240,7 +240,7 @@ def _step_analysis(obs: dict) -> None:
             st.audio(obs["audio_bytes"])
 
     with right, st.container(key="card_ai_findings"):
-        _card_title("AI Analysis Result", "Here is what SafeGuard AI found from your photo and note.")
+        _card_title("AI Analysis Result", "Here is what SiteGuard AI found from your photo and note.")
         st.markdown('<div class="sg-findings-h"><span class="material-symbols-rounded">check_circle</span>AI Findings</div>',
                     unsafe_allow_html=True)
 

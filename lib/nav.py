@@ -12,6 +12,7 @@ PAGES = [
     ("followup", "Follow-ups", ":material/published_with_changes:"),
     ("reports", "Reports", ":material/description:"),
     ("analytics", "Analytics", ":material/monitoring:"),
+    ("insights", "Site Insights", ":material/auto_awesome:"),
     ("notifications", "Notifications", ":material/notifications:"),
 ]
 

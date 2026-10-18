@@ -3,9 +3,18 @@
   "configurations": [
     {
       "name": "siteguard-ai",
-      "runtimeExecutable": "C:\\Users\\REDTECH\\Downloads\\Google  AI Hackathon\\.venv\\Scripts\\streamlit.exe",
+      "runtimeExecutable": ".venv\\Scripts\\streamlit.exe",
       "runtimeArgs": ["run", "app.py", "--server.port", "8765", "--server.headless", "true"],
       "port": 8765
+    },
+    {
+      "name": "siteguard-ai-offline",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set SITEGUARD_BACKEND=local&& set SITEGUARD_MOCK_AI=1&& .venv\\Scripts\\streamlit.exe run app.py --server.port 8766 --server.headless true"
+      ],
+      "port": 8766
     }
   ]
 }
