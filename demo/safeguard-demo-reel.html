@@ -1,0 +1,1366 @@
+<title>SafeGuard AI Demo Reel</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+<style>
+/* Layout: a fixed 1920x1080 cinematic stage scaled to fit, dark surround, light app UI
+   floating inside it; a control rail and a timecoded script panel live outside the frame. */
+:root{
+  --ink:#04080F; --ink-2:#0A121E; --surround:#070C15;
+  --navy:#0B1A2C; --navy-2:#10243B;
+  --canvas:#F4F7FB; --card:#FFFFFF; --line:#E3E8F0;
+  --text:#0F1B2D; --muted:#5B6B80;
+  --blue:#0A6CFF; --cyan:#18B4F5; --grad:linear-gradient(90deg,#0A6CFF,#18B4F5);
+  --green:#12B76A; --green-d:#067647; --amber:#F79009; --red:#D92D20;
+  --onink:#E8EEF7; --onink-dim:#8CA0BC;
+  --display:'Archivo','Arial Narrow',system-ui,sans-serif;
+  --body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'Cascadia Mono',monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--surround); color:var(--onink);
+  font-family:var(--body); font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.page{
+  min-height:100%; display:flex; flex-direction:column; gap:14px;
+  padding-block:16px 22px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+
+/* ---------- Stage ---------- */
+.frame{
+  position:relative; width:100%; max-width:1600px; margin:0 auto;
+  aspect-ratio:16/9; background:#000; border-radius:10px; overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.06);
+}
+.frame.full{border-radius:0; max-width:none; box-shadow:none}
+#stage{
+  position:absolute; top:0; left:0; width:1920px; height:1080px;
+  transform-origin:top left; background:var(--ink); overflow:hidden;
+  font-family:var(--body);
+}
+/* animations are driven off the reel clock via the Web Animations API, not wall time */
+
+/* ambient */
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:40;
+  background:radial-gradient(120% 90% at 50% 45%,transparent 48%,rgba(0,0,0,.55) 100%)}
+.grain{position:absolute;inset:0;pointer-events:none;z-index:41;opacity:.05;
+  background-image:radial-gradient(rgba(255,255,255,.9) .5px,transparent .6px);
+  background-size:3px 3px}
+
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden}
+.scene.on{opacity:1;visibility:visible}
+.scene .pad{position:absolute;inset:0;padding:70px 96px 190px}
+
+/* ---------- Reusable motion ---------- */
+@keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideL{from{opacity:0;transform:translateX(-34px)}to{opacity:1;transform:none}}
+@keyframes slideR{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:none}}
+@keyframes popIn{0%{opacity:0;transform:scale(.86)}60%{transform:scale(1.03)}100%{opacity:1;transform:scale(1)}}
+@keyframes drawW{from{width:0}to{width:var(--w,100%)}}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(10,108,255,.55)}70%{box-shadow:0 0 0 26px rgba(10,108,255,0)}100%{box-shadow:0 0 0 0 rgba(10,108,255,0)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.scene.on [data-anim]{animation-duration:.72s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.75,.25,1)}
+.scene.on [data-anim="rise"]{animation-name:riseIn}
+.scene.on [data-anim="fade"]{animation-name:fadeIn}
+.scene.on [data-anim="left"]{animation-name:slideL}
+.scene.on [data-anim="right"]{animation-name:slideR}
+.scene.on [data-anim="pop"]{animation-name:popIn}
+
+/* ---------- Typography in-frame ---------- */
+.eyebrow{font-family:var(--display);font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+  font-size:19px;color:var(--cyan)}
+.kicker{font-family:var(--display);font-weight:800;font-size:58px;line-height:1.05;letter-spacing:-.015em;
+  color:#fff;text-wrap:balance;margin:14px 0 0}
+.lede{font-size:26px;color:var(--onink-dim);max-width:52ch;margin:16px 0 0}
+
+/* ---------- S1 cold open ---------- */
+#s1 .pad{display:flex;flex-direction:column;justify-content:center;padding-bottom:230px}
+.bigstat{font-family:var(--display);font-weight:900;font-size:300px;line-height:.82;letter-spacing:-.045em;
+  background:linear-gradient(180deg,#fff 20%,#5FC7F7 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  font-variant-numeric:tabular-nums}
+.bigstat-sub{font-family:var(--display);font-weight:700;font-size:40px;color:#fff;margin-top:6px;letter-spacing:-.01em}
+.statrow{display:flex;gap:26px;margin-top:54px}
+.minicard{flex:1;min-width:0;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:22px 26px;
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015))}
+.minicard b{display:block;font-family:var(--display);font-weight:800;font-size:54px;color:#fff;line-height:1;
+  font-variant-numeric:tabular-nums}
+.minicard span{display:block;margin-top:8px;font-size:20px;color:var(--onink-dim)}
+.srcline{position:absolute;left:96px;bottom:148px;font-size:16px;color:#64789B;font-family:var(--mono)}
+
+/* ---------- S2 title / login ---------- */
+#s2 .pad{display:flex;align-items:center;gap:90px;padding-bottom:210px}
+.brandblock{flex:1 1 0;min-width:0}
+.brandmark{display:flex;align-items:center;gap:22px}
+.brandmark img{width:104px;height:104px;object-fit:contain;filter:drop-shadow(0 0 26px rgba(24,180,245,.4))}
+.wordmark{font-family:var(--display);font-weight:900;font-size:86px;letter-spacing:-.02em;color:#fff;line-height:1}
+.wordmark em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:30px;color:var(--onink-dim);margin-top:26px;max-width:24ch;line-height:1.35}
+.rulepill{display:inline-flex;align-items:center;gap:12px;margin-top:34px;padding:12px 22px;border-radius:999px;
+  background:rgba(10,108,255,.14);border:1px solid rgba(24,180,245,.35);color:#9FD9FA;font-size:19px;font-weight:600}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--cyan)}
+
+/* app window chrome */
+.win{background:var(--canvas);border-radius:16px;overflow:hidden;color:var(--text);
+  box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.1)}
+.winbar{height:38px;background:#E8EDF5;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid #D9E1EC}
+.winbar i{width:11px;height:11px;border-radius:50%;background:#C6D0DD;display:block}
+.winbar u{flex:1;text-decoration:none;text-align:center;font-family:var(--mono);font-size:13px;color:#7A8CA3;
+  background:#fff;border-radius:7px;padding:4px 0;margin:0 10px;max-width:520px}
+
+.logincard{width:520px;background:#fff;border-radius:18px;padding:34px 34px 30px;color:var(--text);
+  box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.logincard h3{font-family:var(--display);font-size:30px;margin:0 0 4px;font-weight:800;letter-spacing:-.01em}
+.logincard p{margin:0 0 22px;color:var(--muted);font-size:17px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:15px;font-weight:600;margin-bottom:6px}
+.field label i{color:var(--red);font-style:normal}
+.inp{height:48px;border:1px solid #D3DCE8;border-radius:10px;background:#fff;display:flex;align-items:center;
+  padding:0 14px;font-size:17px;color:var(--text)}
+.inp.ghost{color:#9AA9BC}
+.btn{height:50px;border-radius:10px;background:var(--grad);color:#fff;font-weight:700;font-size:18px;
+  display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 18px rgba(10,108,255,.3)}
+.btn.sec{background:#fff;color:var(--text);border:1px solid #D3DCE8;box-shadow:none;font-weight:600}
+.btn.press{animation:pulseRing 1.1s ease-out 1}
+.demohint{margin-top:16px;background:#EAF2FF;color:#1849A9;border-radius:10px;padding:12px 14px;font-size:15px}
+.demohint code{font-family:var(--mono)}
+
+/* ---------- app shell (sidebar + content) ---------- */
+.shell{display:flex;height:100%;background:var(--canvas)}
+.side{width:252px;flex:0 0 252px;background:linear-gradient(180deg,var(--navy),var(--navy-2));
+  padding:20px 14px;display:flex;flex-direction:column;gap:4px;color:#C8D6E8}
+.side .sbrand{display:flex;align-items:center;gap:10px;padding:4px 8px 16px;color:#fff;
+  font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:.01em}
+.side .sbrand img{width:30px;height:30px;object-fit:contain}
+.nav{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:15px;font-weight:500;color:#A9BDD6}
+.nav .ic{width:18px;height:18px;flex:0 0 18px;border-radius:5px;background:#3F5B7C;opacity:.9}
+.nav.act{background:linear-gradient(90deg,rgba(10,108,255,.95),rgba(24,180,245,.72));color:#fff;font-weight:650}
+.nav.act .ic{background:rgba(255,255,255,.9)}
+.nav .badge{margin-left:auto;background:var(--cyan);color:#06243A;border-radius:999px;font-size:12px;
+  font-weight:700;padding:1px 8px}
+.side .foot{margin-top:auto;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;font-size:13px;color:#8FA6C2}
+.side .who{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:#fff}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--grad);display:flex;align-items:center;
+  justify-content:center;font-weight:700;font-size:14px;color:#fff}
+.main{flex:1;min-width:0;padding:26px 30px;overflow:hidden}
+
+.hero{background:linear-gradient(110deg,#0A3FA8 0%,#0A6CFF 55%,#20B8F5 100%);border-radius:18px;
+  padding:24px 28px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.hero h2{font-family:var(--display);font-size:30px;margin:0;font-weight:800;letter-spacing:-.01em}
+.hero p{margin:6px 0 0;opacity:.88;font-size:17px}
+.hero .cta{background:#fff;color:var(--blue);border-radius:999px;padding:12px 22px;font-weight:700;font-size:16px}
+
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+  box-shadow:0 1px 2px rgba(16,36,59,.05),0 4px 16px rgba(16,36,59,.06)}
+.tile b{display:block;font-family:var(--display);font-weight:800;font-size:40px;line-height:1;
+  font-variant-numeric:tabular-nums;color:var(--text)}
+.tile span{display:block;margin-top:6px;font-size:14px;color:var(--muted)}
+.tile.hi b{color:var(--red)} .tile.op b{color:var(--blue)} .tile.ip b{color:var(--amber)} .tile.cl b{color:var(--green-d)}
+
+.cols{display:grid;grid-template-columns:1.45fr 1fr;gap:18px;margin-top:18px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;
+  box-shadow:0 1px 2px rgba(16,36,59,.05),0 4px 16px rgba(16,36,59,.06)}
+.panel h4{font-family:var(--display);font-size:18px;margin:0 0 12px;font-weight:700;display:flex;
+  align-items:center;justify-content:space-between}
+.panel h4 a{font-size:14px;color:var(--blue);font-weight:600;font-family:var(--body);text-decoration:none}
+.row{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;
+  margin-bottom:9px;background:#fff}
+.row:last-child{margin-bottom:0}
+.thumb{width:44px;height:36px;flex:0 0 44px;border-radius:7px;overflow:hidden;background:#DCE5F0}
+.thumb svg{display:block;width:100%;height:100%}
+
+/* mini trend chart */
+.trend{display:flex;align-items:flex-end;gap:7px;height:96px;margin-top:6px}
+.trend i{flex:1;background:linear-gradient(180deg,#60A5FA,#0A6CFF);border-radius:4px 4px 2px 2px;min-height:5px}
+.trend i.pk{background:linear-gradient(180deg,#FDB022,#F79009)}
+.axis{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:7px;font-family:var(--mono)}
+.loc{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.loc:last-child{border-bottom:0}
+.loc b{font-weight:600;color:var(--text)}
+.bars{display:flex;gap:8px;align-items:center;margin-top:10px}
+.bars .b{height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff}
+.note3{display:flex;gap:16px;margin-top:16px}
+.note3 div{flex:1;min-width:0;background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px 16px;
+  font-size:14.5px;color:#2B3C52}
+.note3 b{display:block;font-size:15px;color:var(--text);margin-bottom:3px}
+.ntf{display:flex;align-items:flex-start;gap:12px;padding:11px 12px;border:1px solid var(--line);
+  border-radius:12px;margin-bottom:9px;background:#fff;font-size:14.5px}
+.ntf .ic2{width:36px;height:36px;flex:0 0 36px;border-radius:10px;background:#EAF2FF}
+.ntf .ic2.w{background:#FFF6E5} .ntf .ic2.g{background:#E9F8EF}
+.ntf b{display:block;font-size:14.5px;font-weight:650;color:var(--text)}
+.ntf span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.row .tt{min-width:0;flex:1}
+.row .tt b{display:block;font-size:15px;font-weight:650;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .tt span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.pill{border-radius:999px;padding:3px 11px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.p-high{background:#FEE4E2;color:#B42318} .p-med{background:#FFF6E5;color:#93370D}
+.p-low{background:#ECFDF3;color:#05603A} .p-open{background:#EAF2FF;color:#1849A9}
+.p-prog{background:#FFF6E5;color:#93370D} .p-closed{background:#E9F8EF;color:#05603A}
+.p-grey{background:#EEF2F7;color:#475467} .p-cyan{background:#E6F6FE;color:#0B5F86}
+
+/* ---------- S4 capture ---------- */
+.stepper{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
+  border-radius:14px;padding:12px 18px;margin-bottom:16px}
+.step{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--muted);white-space:nowrap}
+.stepn{width:26px;height:26px;border-radius:50%;border:1.5px solid #CBD6E4;display:flex;align-items:center;
+  justify-content:center;font-size:13px;font-weight:700;color:var(--muted);background:#fff}
+.step.act{color:var(--blue)} .step.act .stepn{background:var(--grad);color:#fff;border:0}
+.step.done .stepn{background:var(--green);color:#fff;border:0}
+.stepline{flex:1;min-width:16px;height:2px;background:var(--line);border-radius:2px}
+
+.photoframe{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff}
+.photoframe svg{display:block;width:100%;height:auto}
+.caplabel{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);margin-top:8px}
+
+.wave{display:flex;align-items:center;gap:3px;height:34px}
+.wave i{display:block;width:4px;border-radius:2px;background:var(--blue);opacity:.75;
+  animation:wv 1.1s ease-in-out infinite}
+@keyframes wv{0%,100%{height:8px}50%{height:30px}}
+.audio{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;background:#fff;margin-top:12px}
+.audio .lab{font-size:14px;color:var(--muted)}
+.quote{margin-top:10px;font-size:15px;color:var(--text);background:#F6FAFF;border:1px dashed #9EC2F7;
+  border-radius:10px;padding:11px 13px;font-style:italic}
+
+/* pipeline */
+.pipe{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:0;padding:0 96px 190px}
+.pipewrap{display:flex;align-items:center;gap:40px;width:100%}
+.inchips{display:flex;flex-direction:column;gap:18px;flex:0 0 300px}
+.chip{display:flex;align-items:center;gap:13px;border:1px solid rgba(255,255,255,.17);border-radius:13px;
+  padding:16px 18px;background:rgba(255,255,255,.05);color:#DCE7F5;font-size:19px;font-weight:600}
+.chip .sq{width:34px;height:34px;border-radius:9px;background:var(--grad);flex:0 0 34px}
+.wires{flex:0 0 150px;height:220px}
+.gemnode{flex:0 0 250px;text-align:center}
+.gemorb{width:180px;height:180px;margin:0 auto;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#6FD4FF,#0A6CFF 58%,#073A8C);
+  box-shadow:0 0 70px rgba(24,180,245,.55), inset 0 0 40px rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;animation:floaty 3.4s ease-in-out infinite}
+.gemorb svg{width:84px;height:84px}
+.gemlab{margin-top:18px;font-family:var(--display);font-weight:800;font-size:25px;color:#fff}
+.gemsub{font-family:var(--mono);font-size:16px;color:var(--cyan);margin-top:4px}
+.jsonbox{flex:1;min-width:0;background:#060E1A;border:1px solid rgba(255,255,255,.14);border-radius:14px;
+  padding:22px 24px;font-family:var(--mono);font-size:18.5px;line-height:1.62;color:#C6D7EC;
+  box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.jsonbox .hdr{font-family:var(--body);font-size:14px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cyan);font-weight:700;margin-bottom:12px}
+.jk{color:#7FD1FF} .jv{color:#A7E8C4} .jn{color:#FFC98A} .jp{color:#64789B}
+.cur{display:inline-block;width:10px;background:var(--cyan);animation:blink .9s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- S5 result ---------- */
+.resgrid{display:grid;grid-template-columns:1fr 1.25fr;gap:20px}
+.kv{display:grid;grid-template-columns:minmax(190px,34%) 1fr;border-top:1px solid var(--line)}
+.kv>div{padding:11px 4px;border-bottom:1px solid var(--line);font-size:15.5px}
+.kv .k{font-weight:650;color:var(--text)} .kv .v{color:#2B3C52}
+.confbar{height:10px;border-radius:99px;background:#E6ECF3;overflow:hidden;margin-top:8px}
+.confbar>div{height:100%;border-radius:99px;background:linear-gradient(90deg,#12B76A,#32D583);width:0}
+.confbar.low>div{background:linear-gradient(90deg,#F79009,#FDB022)}
+.callout{border-radius:10px;padding:12px 14px;font-size:15px;margin-top:12px}
+.c-warn{background:#FFF6E5;color:#93370D} .c-info{background:#EAF2FF;color:#1849A9}
+.inconc{position:absolute;right:96px;bottom:230px;width:560px;background:#fff;border-radius:16px;
+  padding:20px 22px;color:var(--text);box-shadow:0 30px 70px rgba(0,0,0,.55);border:1px solid var(--line)}
+
+/* ---------- S6 review ---------- */
+.seg{display:flex;gap:8px;margin-top:6px}
+.seg span{flex:1;text-align:center;padding:10px 6px;border:1px solid #D3DCE8;border-radius:9px;font-size:14.5px;
+  font-weight:600;color:var(--muted);background:#fff;transition:all .35s ease}
+.seg span.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(10,108,255,.25)}
+.matrix{display:grid;grid-template-columns:auto repeat(3,1fr);gap:7px;margin-top:10px}
+.matrix div{border-radius:9px;padding:11px 6px;text-align:center;font-size:14.5px;font-weight:650;
+  background:#F3F6FB;color:#5B6B80;transition:all .35s ease}
+.matrix .hd{background:transparent;color:var(--muted);font-size:13px;font-weight:600}
+.matrix .cell.lo{background:#ECFDF3;color:#05603A}
+.matrix .cell.me{background:#FFF6E5;color:#93370D}
+.matrix .cell.hi{background:#FEE4E2;color:#B42318}
+.matrix .cell.live{outline:3px solid var(--blue);outline-offset:1px;transform:scale(1.06);
+  box-shadow:0 8px 22px rgba(10,108,255,.3)}
+.chk{display:flex;align-items:flex-start;gap:11px;padding:11px 12px;border:1px solid var(--line);
+  border-radius:11px;margin-bottom:9px;font-size:15px;background:#fff}
+.box{width:21px;height:21px;flex:0 0 21px;border:1.6px solid #C3D0E0;border-radius:6px;background:#fff;
+  display:flex;align-items:center;justify-content:center;transition:all .3s ease}
+.chk.tick .box{background:var(--blue);border-color:var(--blue)}
+.chk.tick .box::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.4px 2.4px 0;
+  transform:rotate(45deg) translate(-1px,-1px)}
+.riskpill{font-family:var(--display);font-weight:800;font-size:26px;padding:8px 18px;border-radius:12px;
+  display:inline-block;transition:all .35s ease}
+.idcard{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:170px}
+.idinner{background:#fff;color:var(--text);border-radius:20px;padding:44px 56px;text-align:center;
+  box-shadow:0 40px 90px rgba(0,0,0,.6);min-width:680px}
+.okcheck{width:84px;height:84px;border-radius:50%;margin:0 auto 18px;background:linear-gradient(135deg,#12B76A,#32D583);
+  box-shadow:0 0 0 12px #E6F7EE;display:flex;align-items:center;justify-content:center}
+.okcheck::after{content:"";width:22px;height:40px;border:solid #fff;border-width:0 6px 6px 0;
+  transform:rotate(45deg) translate(-2px,-4px)}
+.recid{font-family:var(--mono);font-size:46px;font-weight:600;letter-spacing:.02em;color:var(--blue);margin:6px 0 4px}
+
+/* ---------- S7 register ---------- */
+.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.search{flex:1;height:44px;border:1px solid #D3DCE8;border-radius:10px;background:#fff;display:flex;
+  align-items:center;padding:0 14px;color:#9AA9BC;font-size:16px;gap:10px}
+.fchip{height:44px;border:1px solid #D3DCE8;border-radius:10px;background:#fff;display:flex;align-items:center;
+  padding:0 16px;font-size:15px;font-weight:600;color:var(--text);gap:8px}
+.tabs{display:flex;gap:26px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tabs span{padding:10px 2px 12px;font-size:16px;font-weight:600;color:var(--muted);border-bottom:2.5px solid transparent}
+.tabs span.on{color:var(--blue);border-color:var(--blue)}
+.tabs b{font-weight:700}
+.tl{border-left:2px solid var(--line);margin-left:7px;padding-left:20px}
+.tli{position:relative;padding-bottom:16px;opacity:0}
+.scene.on .tli{animation:slideL .55s cubic-bezier(.2,.75,.25,1) both}
+.tli::before{content:"";position:absolute;left:-27px;top:5px;width:11px;height:11px;border-radius:50%;
+  background:#fff;border:2.5px solid var(--blue)}
+.tli b{display:block;font-size:15.5px;font-weight:650;color:var(--text)}
+.tli span{display:block;font-size:13.5px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
+
+/* ---------- S8 verify ---------- */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.bacard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;position:relative;overflow:hidden}
+.balab{position:absolute;top:22px;left:22px;z-index:3;border-radius:999px;padding:5px 14px;font-size:14px;
+  font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.balab.b{background:rgba(180,35,24,.92);color:#fff}
+.balab.a{background:rgba(5,96,58,.92);color:#fff}
+.wipe{position:absolute;inset:14px;border-radius:10px;overflow:hidden;z-index:2;background:#fff}
+.confetti i{position:absolute;width:11px;height:11px;border-radius:3px;opacity:0;
+  animation:conf 1.9s ease-out forwards}
+@keyframes conf{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(300px) rotate(260deg)}}
+
+/* ---------- S9 close ---------- */
+#s9 .pad{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:230px}
+.closeline{font-family:var(--display);font-weight:900;font-size:76px;letter-spacing:-.025em;color:#fff;margin:26px 0 0}
+.closesub{font-size:28px;color:var(--onink-dim);margin-top:16px}
+.stack{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap;justify-content:center}
+.stack span{border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:11px 22px;font-size:18px;
+  color:#CFE0F2;background:rgba(255,255,255,.05);font-weight:600}
+.links{margin-top:40px;display:flex;flex-direction:column;gap:12px;font-family:var(--mono);font-size:24px;color:#8ED8FF}
+.foot9{margin-top:36px;font-size:17px;color:#64789B;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+
+/* ---------- Caption + HUD inside frame ---------- */
+.cap{position:absolute;left:0;right:0;bottom:0;z-index:45;padding:0 96px 54px;pointer-events:none}
+.cap .inner{background:rgba(4,8,15,.76);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:20px 28px;font-size:30px;line-height:1.38;color:#EFF5FD;font-weight:500;
+  text-wrap:balance;min-height:84px;display:flex;align-items:center}
+#stage.nocap .cap{display:none}
+.hud{position:absolute;top:0;left:0;right:0;z-index:46;display:flex;align-items:center;justify-content:space-between;
+  padding:26px 36px;font-family:var(--mono);font-size:17px;color:rgba(255,255,255,.55);letter-spacing:.05em}
+#stage.nocap .hud{opacity:.22}
+.progress{position:absolute;left:0;bottom:0;height:4px;background:var(--grad);z-index:47;width:0}
+
+/* ---------- Slate (marks a window that real screen capture replaces) ---------- */
+.slate{position:absolute;inset:0;z-index:43;background:#07101C;display:flex;align-items:center;justify-content:center}
+.slate::before,.slate::after{content:"";position:absolute;left:0;right:0;height:22px;
+  background:repeating-linear-gradient(135deg,#F2C230 0 26px,#1A1206 26px 52px)}
+.slate::before{top:0} .slate::after{bottom:0}
+.slateinner{text-align:center;max-width:1100px;padding:0 60px}
+.slabel{font-family:var(--display);font-size:20px;letter-spacing:.3em;text-transform:uppercase;
+  color:#F2C230;font-weight:800}
+.sltitle{font-family:var(--display);font-size:72px;font-weight:900;color:#fff;letter-spacing:-.02em;
+  margin:18px 0 0;text-wrap:balance}
+.slhow{font-size:25px;color:#9FB4CF;margin-top:20px;line-height:1.45}
+.slmeta{font-family:var(--mono);font-size:22px;color:var(--cyan);margin-top:26px}
+.slbar{height:6px;border-radius:99px;background:rgba(255,255,255,.14);margin-top:22px;overflow:hidden}
+.slbar>div{height:100%;background:#F2C230;border-radius:99px;width:0}
+
+/* ---------- Controls (outside the frame) ---------- */
+.rail{max-width:1600px;margin:0 auto;width:100%;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.cbtn{appearance:none;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:var(--onink);
+  border-radius:10px;padding:10px 16px;font:600 14px/1 var(--body);cursor:pointer;display:flex;align-items:center;gap:8px}
+.cbtn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3)}
+.cbtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.cbtn.pri{background:var(--grad);border-color:transparent;color:#fff}
+.cbtn[aria-pressed="true"]{background:rgba(24,180,245,.2);border-color:var(--cyan);color:#BEE7FF}
+.scrub{flex:1;min-width:220px;display:flex;align-items:center;gap:12px}
+input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
+.tc{font-family:var(--mono);font-size:14px;color:var(--onink-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.sheet{max-width:1600px;margin:0 auto;width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;padding:20px 22px}
+.sheet h2{font-family:var(--display);font-size:20px;margin:0 0 4px;font-weight:800;color:#fff}
+.sheet .note{color:var(--onink-dim);font-size:14px;margin:0 0 16px;max-width:72ch}
+.cuelist{display:flex;flex-direction:column;gap:2px}
+.cue{display:grid;grid-template-columns:86px 1fr;gap:16px;padding:9px 12px;border-radius:9px;cursor:pointer;
+  align-items:baseline;border:0;background:transparent;color:inherit;text-align:left;font:inherit;width:100%}
+.cue:hover{background:rgba(255,255,255,.07)}
+.cue.live{background:rgba(10,108,255,.22);box-shadow:inset 2px 0 0 var(--cyan)}
+.cue .t{font-family:var(--mono);font-size:13.5px;color:var(--cyan);font-variant-numeric:tabular-nums}
+.cue .x{font-size:15.5px;color:#DDE7F4;line-height:1.5}
+/* segment cards */
+.segs{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.seg-c{display:flex;flex-direction:column;gap:7px;text-align:left;font:inherit;color:inherit;cursor:pointer;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);border-radius:13px;padding:15px 17px}
+.seg-c:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.3)}
+.seg-c:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.seg-c.live{border-color:var(--cyan);background:rgba(10,108,255,.18)}
+.seg-top{display:flex;align-items:center;gap:10px}
+.seg-n{font-family:var(--mono);font-size:13px;color:var(--onink-dim)}
+.seg-src{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  border-radius:999px;padding:3px 10px}
+.seg-src.reel{background:rgba(24,180,245,.2);color:#8ED8FF}
+.seg-src.capture{background:rgba(242,194,48,.18);color:#F2C230}
+.seg-name{font-family:var(--display);font-weight:700;font-size:17px;color:#fff}
+.seg-how{font-size:13.5px;color:var(--onink-dim);line-height:1.45}
+.seg-t{font-family:var(--mono);font-size:13px;color:var(--cyan);font-variant-numeric:tabular-nums}
+
+.beatmark{margin:14px 0 4px;font-family:var(--display);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:#6C83A3;font-weight:700;padding:0 12px}
+
+@media (max-width:760px){
+  .rail{gap:10px}
+  .cbtn{padding:9px 12px;font-size:13px}
+  .cue{grid-template-columns:62px 1fr;gap:10px}
+  .sheet{padding:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  .gemorb,.wave i{animation:none !important}
+}
+</style>
+
+<div class="page">
+  <div class="frame" id="frame">
+    <div id="stage" aria-label="SafeGuard AI demo reel">
+
+      <!-- ============ S1 ============ -->
+      <section class="scene" id="s1">
+        <div class="pad">
+          <div class="eyebrow" data-anim="fade">The problem</div>
+          <div class="bigstat" id="bigstat" data-anim="rise" style="animation-delay:.15s">0%</div>
+          <div class="bigstat-sub" data-anim="rise" style="animation-delay:.45s">of all U.S. construction deaths are falls</div>
+          <div class="statrow">
+            <div class="minicard" data-anim="rise" style="animation-delay:4.6s"><b>60%+</b><span>of deaths from OSHA's “Fatal Four” alone</span></div>
+            <div class="minicard" data-anim="rise" style="animation-delay:4.9s"><b>991</b><span>construction workers died in one recent year</span></div>
+            <div class="minicard" data-anim="rise" style="animation-delay:5.2s"><b>Paper</b><span>is still where most hazards get logged</span></div>
+          </div>
+        </div>
+        <div class="srcline" data-anim="fade" style="animation-delay:5.6s">Source: U.S. Bureau of Labor Statistics (CFOI) · OSHA “Fatal Four”</div>
+      </section>
+
+      <!-- ============ S2 ============ -->
+      <section class="scene" id="s2">
+        <div class="pad">
+          <div class="brandblock">
+            <div class="brandmark" data-anim="rise">
+              <img src="logo.png" alt="">
+              <div class="wordmark">SAFE<em>GUARD</em> AI</div>
+            </div>
+            <p class="tagline" data-anim="rise" style="animation-delay:.2s">Safer workplaces,<br>smarter decisions.</p>
+            <div data-anim="rise" style="display:flex;gap:18px;margin-top:22px;font-size:20px;font-weight:600;color:#9FD9FA;animation-delay:.35s">
+              <span>See it</span><span style="opacity:.35">|</span><span>Report it</span><span style="opacity:.35">|</span><span>Resolve it</span><span style="opacity:.35">|</span><span>Verify it</span>
+            </div>
+            <div class="rulepill" data-anim="rise" style="animation-delay:.5s"><span class="dot"></span>The AI proposes. A human approves every state change.</div>
+          </div>
+          <div class="logincard" data-anim="right" style="animation-delay:.9s">
+            <h3>Welcome back</h3>
+            <p>Sign in to report, track and verify workplace hazards.</p>
+            <div class="field"><label>Username <i>*</i></label><div class="inp">demo</div></div>
+            <div class="field"><label>Password <i>*</i></label><div class="inp">••••••••••••</div></div>
+            <div class="btn press" style="animation-delay:2.4s">Sign in</div>
+            <div class="demohint">Demo account · <code>demo / Safeguard@123</code> — Safety Officer.<br>Passwords stored as salted PBKDF2-SHA256 hashes, never plain text.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S3 ============ -->
+      <section class="scene" id="s3">
+        <div class="shell">
+          <nav class="side" data-anim="left">
+            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="nav act"><span class="ic"></span>Home</div>
+            <div class="nav"><span class="ic"></span>New Observation</div>
+            <div class="nav"><span class="ic"></span>Hazard Register</div>
+            <div class="nav"><span class="ic"></span>My Tasks</div>
+            <div class="nav"><span class="ic"></span>Follow-ups</div>
+            <div class="nav"><span class="ic"></span>Reports</div>
+            <div class="nav"><span class="ic"></span>Analytics</div>
+            <div class="nav"><span class="ic"></span>Notifications<span class="badge">4</span></div>
+            <div class="nav"><span class="ic"></span>Settings</div>
+            <div class="foot">
+              <div class="who"><span class="avatar">AW</span><div><div style="font-size:14px;font-weight:650">Ashen W.</div><div style="font-size:12px;color:#8FA6C2">Safety Officer</div></div></div>
+              The AI proposes. You approve every state change.
+            </div>
+          </nav>
+          <div class="main">
+            <div class="hero" data-anim="rise">
+              <div><h2>Good afternoon, Ashen</h2><p>7 records are waiting on your decision.</p></div>
+              <div class="cta">+ New Observation</div>
+            </div>
+            <div class="tiles">
+              <div class="tile hi" data-anim="rise" style="animation-delay:.2s"><b data-count="3">0</b><span>High Risk</span></div>
+              <div class="tile op" data-anim="rise" style="animation-delay:.3s"><b data-count="7">0</b><span>Open</span></div>
+              <div class="tile ip" data-anim="rise" style="animation-delay:.4s"><b data-count="5">0</b><span>In Progress</span></div>
+              <div class="tile cl" data-anim="rise" style="animation-delay:.5s"><b data-count="12">0</b><span>Closed</span></div>
+            </div>
+            <div class="cols">
+              <div class="panel" data-anim="rise" style="animation-delay:.7s">
+                <h4>Recent observations <a href="#">View all</a></h4>
+                <div class="row"><span class="thumb"></span><span class="tt"><b>Boxes blocking fire extinguisher</b><span>Loading Dock B · SG-2026-00412</span></span><span class="pill p-med">6 · Medium</span></div>
+                <div class="row"><span class="thumb"></span><span class="tt"><b>Unguarded floor opening, Level 4</b><span>Block C · SG-2026-00409</span></span><span class="pill p-high">9 · High</span></div>
+                <div class="row"><span class="thumb"></span><span class="tt"><b>Worker without hard hat near crane</b><span>Yard North · SG-2026-00407</span></span><span class="pill p-med">6 · Medium</span></div>
+                <div class="row"><span class="thumb"></span><span class="tt"><b>Scaffold edge missing guardrail</b><span>Block A, L2 · SG-2026-00403</span></span><span class="pill p-high">9 · High</span></div>
+              </div>
+              <div class="panel" data-anim="rise" style="animation-delay:.85s">
+                <h4>Actions due</h4>
+                <div class="row"><span class="tt"><b>Clear walkway &amp; relocate stock</b><span>Housekeeping · due today</span></span><span class="pill p-high">Overdue</span></div>
+                <div class="row"><span class="tt"><b>Install guardrail to opening</b><span>Site Supervisor · 1 day</span></span><span class="pill p-med">Due</span></div>
+                <div class="row"><span class="tt"><b>PPE toolbox talk, north yard</b><span>Safety Team · 3 days</span></span><span class="pill p-grey">Due</span></div>
+                <div class="row"><span class="tt"><b>Re-fix scaffold guardrail</b><span>Maintenance · 3 days</span></span><span class="pill p-grey">Due</span></div>
+              </div>
+            </div>
+            <div class="cols" data-anim="rise" style="animation-delay:1s">
+              <div class="panel">
+                <h4>Observations — last 14 days</h4>
+                <div class="trend" id="trend"></div>
+                <div class="axis"><span>5 Oct</span><span>12 Oct</span><span>18 Oct</span></div>
+              </div>
+              <div class="panel">
+                <h4>Open hazards by risk</h4>
+                <div class="bars">
+                  <span class="b" style="width:26%;background:#D92D20">3 High</span>
+                  <span class="b" style="width:34%;background:#F79009">4 Med</span>
+                  <span class="b" style="width:22%;background:#12B76A">2 Low</span>
+                </div>
+                <div style="margin-top:14px">
+                  <div class="loc"><b>Loading Dock B</b><span style="color:var(--muted)">8 total · 3 open</span></div>
+                  <div class="loc"><b>Block C, Level 4</b><span style="color:var(--muted)">6 total · 2 open</span></div>
+                  <div class="loc"><b>Yard North</b><span style="color:var(--muted)">5 total · 2 open</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S4 ============ -->
+      <section class="scene" id="s4">
+        <div class="shell" id="s4app">
+          <nav class="side">
+            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="nav"><span class="ic"></span>Home</div>
+            <div class="nav act"><span class="ic"></span>New Observation</div>
+            <div class="nav"><span class="ic"></span>Hazard Register</div>
+            <div class="nav"><span class="ic"></span>My Tasks</div>
+            <div class="nav"><span class="ic"></span>Follow-ups</div>
+            <div class="nav"><span class="ic"></span>Reports</div>
+            <div class="nav"><span class="ic"></span>Analytics</div>
+            <div class="nav"><span class="ic"></span>Notifications<span class="badge">4</span></div>
+            <div class="nav"><span class="ic"></span>Settings</div>
+          </nav>
+          <div class="main">
+            <div class="stepper" data-anim="fade">
+              <span class="step act"><span class="stepn">1</span>Capture</span><span class="stepline"></span>
+              <span class="step"><span class="stepn">2</span>AI Analysis</span><span class="stepline"></span>
+              <span class="step"><span class="stepn">3</span>Review &amp; Confirm</span><span class="stepline"></span>
+              <span class="step"><span class="stepn">4</span>Assign Action</span>
+            </div>
+            <div class="cols" style="grid-template-columns:1fr 1fr;margin-top:0">
+              <div class="panel" data-anim="left" style="animation-delay:.2s">
+                <h4>Site photo <span class="pill p-cyan">Required</span></h4>
+                <div class="photoframe" id="photoBefore"></div>
+                <div class="caplabel">IMG_4471.jpg · 2.4 MB · captured on device</div>
+                <div class="audio" data-anim="fade" style="animation-delay:1.6s">
+                  <span class="wave" id="wave1"></span>
+                  <span class="lab">Voice note · 0:09</span>
+                </div>
+                <div class="quote" data-anim="fade" style="animation-delay:2.4s">“Boxes stacked in front of the fire extinguisher by loading dock B — walkway's down to about half a metre.”</div>
+              </div>
+              <div class="panel" data-anim="right" style="animation-delay:.35s">
+                <h4>Context</h4>
+                <div class="field"><label>Location <i style="color:var(--red);font-style:normal">*</i></label><div class="inp">Loading Dock B / Block C, Level 4</div></div>
+                <div class="cols" style="grid-template-columns:1fr 1fr;gap:14px;margin-top:0">
+                  <div class="field" style="margin:0"><label>Date <i style="color:var(--red);font-style:normal">*</i></label><div class="inp">18 Oct 2026</div></div>
+                  <div class="field" style="margin:0"><label>Time <i style="color:var(--red);font-style:normal">*</i></label><div class="inp">14:32</div></div>
+                </div>
+                <div class="field" style="margin-top:16px"><label>Activity</label><div class="inp">Material delivery</div></div>
+                <div class="btn press" style="margin-top:22px;animation-delay:3.4s">✦ &nbsp;Analyze with AI</div>
+                <div class="callout c-info" style="margin-top:16px">If Gemini can't be reached, <b>Continue with manual review</b> takes you straight to step 3. AI analysis is never a blocker.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pipe" id="s4pipe" style="opacity:0">
+          <div class="pipewrap">
+            <div class="inchips">
+              <div class="chip"><span class="sq"></span>Site photo</div>
+              <div class="chip"><span class="sq"></span>Voice note</div>
+              <div class="chip"><span class="sq"></span>Typed context</div>
+            </div>
+            <svg class="wires" viewBox="0 0 150 220" fill="none" aria-hidden="true">
+              <path d="M0 40 C 80 40, 70 110, 150 110" stroke="#18B4F5" stroke-width="2.5" opacity=".75"/>
+              <path d="M0 110 L150 110" stroke="#18B4F5" stroke-width="2.5" opacity=".75"/>
+              <path d="M0 180 C 80 180, 70 110, 150 110" stroke="#18B4F5" stroke-width="2.5" opacity=".75"/>
+            </svg>
+            <div class="gemnode">
+              <div class="gemorb">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5 L14.3 8.2 L21 10.5 L14.3 12.8 L12 19.5 L9.7 12.8 L3 10.5 L9.7 8.2 Z" fill="#fff" opacity=".95"/><path d="M18.6 16.2 L19.6 19 L22.4 20 L19.6 21 L18.6 23.8 L17.6 21 L14.8 20 L17.6 19 Z" fill="#fff" opacity=".8"/></svg>
+              </div>
+              <div class="gemlab">Gemini</div>
+              <div class="gemsub">gemini-3.5-flash</div>
+            </div>
+            <div class="jsonbox">
+              <div class="hdr">response_schema · structured output</div>
+              <div id="jsonOut"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S5 ============ -->
+      <section class="scene" id="s5">
+        <div class="shell">
+          <nav class="side">
+            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="nav"><span class="ic"></span>Home</div>
+            <div class="nav act"><span class="ic"></span>New Observation</div>
+            <div class="nav"><span class="ic"></span>Hazard Register</div>
+            <div class="nav"><span class="ic"></span>My Tasks</div>
+            <div class="nav"><span class="ic"></span>Follow-ups</div>
+            <div class="nav"><span class="ic"></span>Reports</div>
+            <div class="nav"><span class="ic"></span>Analytics</div>
+            <div class="nav"><span class="ic"></span>Notifications<span class="badge">4</span></div>
+            <div class="nav"><span class="ic"></span>Settings</div>
+          </nav>
+          <div class="main">
+            <div class="stepper" data-anim="fade">
+              <span class="step done"><span class="stepn">✓</span>Capture</span><span class="stepline"></span>
+              <span class="step act"><span class="stepn">2</span>AI Analysis</span><span class="stepline"></span>
+              <span class="step"><span class="stepn">3</span>Review &amp; Confirm</span><span class="stepline"></span>
+              <span class="step"><span class="stepn">4</span>Assign Action</span>
+            </div>
+            <div class="resgrid">
+              <div class="panel" data-anim="left" style="animation-delay:.15s">
+                <div class="photoframe" id="photoBefore2"></div>
+                <h4 style="margin:14px 0 2px">Boxes blocking fire extinguisher</h4>
+                <div style="font-size:14.5px;color:var(--muted)">Loading Dock B / Block C, Level 4 · 18 Oct 2026, 14:32</div>
+                <div style="margin-top:16px;display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-weight:650;font-size:15px">AI confidence</span>
+                  <span class="pill p-closed" id="confPill">Confirmed</span>
+                </div>
+                <div class="confbar" id="confBar"><div></div></div>
+                <div style="font-size:14px;color:var(--muted);margin-top:6px"><span id="confNum">0</span>% · evidence supports the finding</div>
+              </div>
+              <div class="panel" data-anim="right" style="animation-delay:.3s">
+                <h4>Proposed finding <span class="pill p-grey">Not confirmed yet</span></h4>
+                <div class="kv">
+                  <div class="k">Visible observation</div><div class="v">Stacked cartons occupy the marked walkway and sit directly in front of a wall-mounted fire extinguisher.</div>
+                  <div class="k">Hazard category</div><div class="v"><b>Access obstruction / Walkway</b></div>
+                  <div class="k">Risk level (indicative)</div><div class="v">Likelihood 3 × Severity 2 = <b>6 · Medium</b></div>
+                  <div class="k">Potential impact</div><div class="v">Delayed egress and delayed access to firefighting equipment during an emergency.</div>
+                  <div class="k">Suggested action</div><div class="v">Relocate stock to the racking bay; re-mark the walkway boundary.</div>
+                  <div class="k">Responsible team</div><div class="v">Warehouse Operations / Housekeeping</div>
+                  <div class="k">Model reasoning</div><div class="v">The extinguisher signage is visible above the obstruction, and the floor marking continues behind the cartons.</div>
+                </div>
+                <div class="note3">
+                  <div><b>Capture again</b>Keeps the photo and voice note.</div>
+                  <div><b>Not a hazard</b>Logged and kept for audit, never discarded.</div>
+                  <div><b>Proceed to review</b>Take ownership of the record.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="inconc" id="inconcCard" style="opacity:0">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <b style="font-family:var(--display);font-size:20px">A different photo, same honesty</b>
+            <span class="pill p-med">Inconclusive</span>
+          </div>
+          <div class="confbar low" style="margin-top:12px"><div style="width:41%"></div></div>
+          <div style="font-size:14px;color:var(--muted);margin-top:6px">41% · evidence is not sufficient</div>
+          <div class="callout c-warn">Angle and lighting prevent a clear read of whether a guardrail is present. Capture again from the opposite side, or continue with manual review.</div>
+        </div>
+      </section>
+
+      <!-- ============ S6 ============ -->
+      <section class="scene" id="s6">
+        <div class="shell">
+          <nav class="side">
+            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="nav"><span class="ic"></span>Home</div>
+            <div class="nav act"><span class="ic"></span>New Observation</div>
+            <div class="nav"><span class="ic"></span>Hazard Register</div>
+            <div class="nav"><span class="ic"></span>My Tasks</div>
+            <div class="nav"><span class="ic"></span>Follow-ups</div>
+            <div class="nav"><span class="ic"></span>Reports</div>
+            <div class="nav"><span class="ic"></span>Analytics</div>
+            <div class="nav"><span class="ic"></span>Notifications<span class="badge">4</span></div>
+            <div class="nav"><span class="ic"></span>Settings</div>
+          </nav>
+          <div class="main">
+            <div class="stepper" data-anim="fade">
+              <span class="step done"><span class="stepn">✓</span>Capture</span><span class="stepline"></span>
+              <span class="step done"><span class="stepn">✓</span>AI Analysis</span><span class="stepline"></span>
+              <span class="step act"><span class="stepn">3</span>Review &amp; Confirm</span><span class="stepline"></span>
+              <span class="step"><span class="stepn">4</span>Assign Action</span>
+            </div>
+            <div class="resgrid" style="grid-template-columns:1fr 1fr">
+              <div class="panel" data-anim="left" style="animation-delay:.15s">
+                <h4>The reviewer owns this record</h4>
+                <div class="field"><label>Observation title <i style="color:var(--red);font-style:normal">*</i></label><div class="inp">Boxes blocking fire extinguisher</div></div>
+                <div class="field"><label>Category <i style="color:var(--red);font-style:normal">*</i></label><div class="inp">Access obstruction / Walkway</div></div>
+                <div class="field"><label>Likelihood <i style="color:var(--red);font-style:normal">*</i></label>
+                  <div class="seg" id="segL"><span>1 Unlikely</span><span class="on">2 Possible</span><span>3 Likely</span></div>
+                </div>
+                <div class="field"><label>Severity <i style="color:var(--red);font-style:normal">*</i></label>
+                  <div class="seg" id="segS"><span>1 Minor</span><span class="on">2 Serious</span><span>3 Major</span></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:16px;margin-top:20px">
+                  <span style="font-size:15px;color:var(--muted);font-weight:600">Risk level</span>
+                  <span class="riskpill p-med" id="riskPill">4 · Medium</span>
+                  <span style="font-size:13.5px;color:var(--muted);font-family:var(--mono)">likelihood × severity</span>
+                </div>
+                <div class="matrix" id="matrix">
+                  <div class="hd"></div><div class="hd">1 Minor</div><div class="hd">2 Serious</div><div class="hd">3 Major</div>
+                  <div class="hd">3 Likely</div><div class="cell lo" data-c="3-1">3 · Low</div><div class="cell me" data-c="3-2">6 · Med</div><div class="cell hi" data-c="3-3">9 · High</div>
+                  <div class="hd">2 Possible</div><div class="cell lo" data-c="2-1">2 · Low</div><div class="cell me" data-c="2-2">4 · Med</div><div class="cell me" data-c="2-3">6 · Med</div>
+                  <div class="hd">1 Unlikely</div><div class="cell lo" data-c="1-1">1 · Low</div><div class="cell lo" data-c="1-2">2 · Low</div><div class="cell lo" data-c="1-3">3 · Low</div>
+                </div>
+                <div class="callout c-info">Risk is deterministic Python, isolated from the model. Gemini only suggests the two inputs — the reviewer sets them.</div>
+              </div>
+              <div class="panel" data-anim="right" style="animation-delay:.3s">
+                <h4>Corrective action <span class="pill p-cyan">At least one required</span></h4>
+                <div class="chk" id="chk1"><span class="box"></span><span>Relocate stacked cartons to racking bay 4 and clear the extinguisher frontage.</span></div>
+                <div class="chk" id="chk2"><span class="box"></span><span>Re-mark the walkway boundary and brief the delivery crew.</span></div>
+                <div class="chk" id="chk3"><span class="box"></span><span>Add loading dock B to the daily housekeeping walk-round.</span></div>
+                <div class="cols" style="grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+                  <div class="field" style="margin:0"><label>Assign to <i style="color:var(--red);font-style:normal">*</i></label><div class="inp">Housekeeping</div></div>
+                  <div class="field" style="margin:0"><label>Priority <i style="color:var(--red);font-style:normal">*</i></label><div class="inp">High</div></div>
+                </div>
+                <div class="field" style="margin-top:14px"><label>Target date <i style="color:var(--red);font-style:normal">*</i></label><div class="inp">19 Oct 2026 &nbsp;<span style="color:var(--muted);font-size:14px">· 1 day, set by High priority</span></div></div>
+                <div class="callout c-warn">Escalation attached automatically: High — escalate to the site manager within 24 hours.</div>
+                <div class="btn press" style="margin-top:18px;animation-delay:18s">Confirm &amp; Create Record</div>
+                <div class="btn sec" style="margin-top:10px">Save as Draft</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="idcard" id="idCard" style="opacity:0">
+          <div class="idinner">
+            <div class="okcheck"></div>
+            <div style="font-size:18px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;font-weight:700">Record created · action assigned</div>
+            <div class="recid">SG-2026-00412</div>
+            <div style="font-size:21px;font-weight:650">Boxes blocking fire extinguisher</div>
+            <div style="font-size:17px;color:var(--muted);margin-top:8px">Housekeeping · High · due 19 Oct 2026 · confirmed by Ashen W.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S7 ============ -->
+      <section class="scene" id="s7">
+        <div class="shell">
+          <nav class="side">
+            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="nav"><span class="ic"></span>Home</div>
+            <div class="nav"><span class="ic"></span>New Observation</div>
+            <div class="nav act"><span class="ic"></span>Hazard Register</div>
+            <div class="nav"><span class="ic"></span>My Tasks</div>
+            <div class="nav"><span class="ic"></span>Follow-ups</div>
+            <div class="nav"><span class="ic"></span>Reports</div>
+            <div class="nav"><span class="ic"></span>Analytics</div>
+            <div class="nav"><span class="ic"></span>Notifications<span class="badge">4</span></div>
+            <div class="nav"><span class="ic"></span>Settings</div>
+          </nav>
+          <div class="main">
+            <div class="toolbar" data-anim="fade">
+              <div class="search">⌕ &nbsp;SG-2026-00412</div>
+              <div class="fchip">Category: All ▾</div>
+              <div class="fchip">Risk: All ▾</div>
+              <div class="fchip">Sort: Highest risk ▾</div>
+            </div>
+            <div class="tabs" data-anim="fade" style="animation-delay:.15s">
+              <span class="on">All <b>27</b></span><span>Open <b>7</b></span><span>In Progress <b>5</b></span><span>Closed <b>12</b></span>
+            </div>
+            <div class="resgrid" style="grid-template-columns:1fr 1.1fr">
+              <div class="panel" data-anim="left" style="animation-delay:.3s">
+                <h4>Register</h4>
+                <div class="row" style="border-color:#9EC2F7;box-shadow:0 4px 14px rgba(10,108,255,.14)"><span class="thumb"></span><span class="tt"><b>Boxes blocking fire extinguisher</b><span>SG-2026-00412 · Loading Dock B · Housekeeping</span></span><span class="pill p-prog">In Progress</span></div>
+                <div class="row"><span class="thumb"></span><span class="tt"><b>Unguarded floor opening, Level 4</b><span>SG-2026-00409 · Block C · Site Supervisor</span></span><span class="pill p-open">Open</span></div>
+                <div class="row"><span class="thumb"></span><span class="tt"><b>Worker without hard hat near crane</b><span>SG-2026-00407 · Yard North · Safety Team</span></span><span class="pill p-prog">In Progress</span></div>
+                <div class="row"><span class="thumb"></span><span class="tt"><b>Scaffold edge missing guardrail</b><span>SG-2026-00403 · Block A, L2 · Maintenance</span></span><span class="pill p-closed">Closed</span></div>
+                <div class="row"><span class="thumb"></span><span class="tt"><b>Cable run across pedestrian route</b><span>SG-2026-00398 · Gate 2 · Electrical</span></span><span class="pill p-closed">Closed</span></div>
+              </div>
+              <div class="panel" data-anim="right" style="animation-delay:.45s">
+                <h4>History <span class="pill p-grey">Append-only</span></h4>
+                <div class="tl" id="timeline">
+                  <div class="tli" style="animation-delay:5.4s"><b>Evidence submitted for verification</b><span>Housekeeping · 19 Oct 2026, 09:14</span></div>
+                  <div class="tli" style="animation-delay:6.6s"><b>Corrective action assigned — Housekeeping, High, due 19 Oct</b><span>Ashen W. · 18 Oct 2026, 14:36</span></div>
+                  <div class="tli" style="animation-delay:7.8s"><b>Finding confirmed; severity edited 2 → 3 by reviewer</b><span>Ashen W. · 18 Oct 2026, 14:35</span></div>
+                  <div class="tli" style="animation-delay:9.0s"><b>AI analysis returned — Access obstruction, 86% confidence</b><span>gemini-3.5-flash · 18 Oct 2026, 14:33</span></div>
+                  <div class="tli" style="animation-delay:10.2s"><b>Observation captured — photo + voice note, Loading Dock B</b><span>Ashen W. · 18 Oct 2026, 14:32</span></div>
+                </div>
+                <div class="callout c-info">The notification feed is derived from this trail, so it can never drift from the record.</div>
+              </div>
+            </div>
+            <div class="cols" data-anim="rise" style="animation-delay:11.4s">
+              <div class="panel">
+                <h4>Notifications <span class="pill p-open">4 unread</span></h4>
+                <div class="ntf"><span class="ic2 w"></span><span><b>Action overdue — clear walkway &amp; relocate stock</b><span>SG-2026-00412 · Housekeeping · target 19 Oct</span></span></div>
+                <div class="ntf"><span class="ic2"></span><span><b>Evidence submitted for verification</b><span>SG-2026-00412 · awaiting your closure decision</span></span></div>
+                <div class="ntf"><span class="ic2 g"></span><span><b>Closure approved — scaffold edge missing guardrail</b><span>SG-2026-00403 · closed by Ashen W.</span></span></div>
+              </div>
+              <div class="panel">
+                <h4>Reports &amp; export</h4>
+                <div class="tiles" style="grid-template-columns:1fr 1fr;margin-top:0">
+                  <div class="tile"><b>12</b><span>Closed records</span></div>
+                  <div class="tile"><b>2.4</b><span>Avg. days to close</span></div>
+                </div>
+                <div style="display:flex;gap:12px;margin-top:16px">
+                  <div class="btn" style="flex:1">Download report</div>
+                  <div class="btn sec" style="flex:1">Export register (CSV)</div>
+                </div>
+                <div class="callout c-info">Each closure report is self-contained HTML — record, risk, before/after evidence, verification summary and the full audit trail.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S8 ============ -->
+      <section class="scene" id="s8">
+        <div class="shell">
+          <nav class="side">
+            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="nav"><span class="ic"></span>Home</div>
+            <div class="nav"><span class="ic"></span>New Observation</div>
+            <div class="nav"><span class="ic"></span>Hazard Register</div>
+            <div class="nav"><span class="ic"></span>My Tasks</div>
+            <div class="nav act"><span class="ic"></span>Follow-ups</div>
+            <div class="nav"><span class="ic"></span>Reports</div>
+            <div class="nav"><span class="ic"></span>Analytics</div>
+            <div class="nav"><span class="ic"></span>Notifications<span class="badge">4</span></div>
+            <div class="nav"><span class="ic"></span>Settings</div>
+          </nav>
+          <div class="main">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px" data-anim="fade">
+              <h2 style="font-family:var(--display);font-size:26px;margin:0;font-weight:800">Verify &amp; close · SG-2026-00412</h2>
+              <span class="pill p-prog">Pending Review</span>
+            </div>
+            <div class="ba">
+              <div class="bacard" data-anim="left" style="animation-delay:.2s">
+                <span class="balab b">Before · 18 Oct</span>
+                <div id="photoBefore3"></div>
+              </div>
+              <div class="bacard" data-anim="right" style="animation-delay:.3s">
+                <span class="balab a">After · 19 Oct</span>
+                <div id="photoAfter"></div>
+                <div class="wipe" id="wipeCover"></div>
+              </div>
+            </div>
+            <div class="panel" data-anim="rise" style="margin-top:16px;animation-delay:.6s">
+              <h4>AI verification summary <span class="pill p-closed" id="vPill">Confirmed</span></h4>
+              <div style="font-size:16.5px;line-height:1.55;color:#2B3C52">The cartons present in the original photo are absent from the new evidence, the walkway marking is continuous, and the extinguisher frontage is clear. <b>Evidence suggests the reported obstruction has been remediated.</b> Gemini compared the new photo against this specific finding — it does not re-scan the scene for new hazards.</div>
+              <div style="display:flex;gap:14px;margin-top:18px">
+                <div class="btn press" style="flex:0 0 280px;animation-delay:14.5s">Approve closure</div>
+                <div class="btn sec" style="flex:0 0 280px">Reject — stays open</div>
+                <div style="align-self:center;font-size:14.5px;color:var(--muted)">The recommendation is never the decision. Both outcomes are written to the audit trail.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="idcard" id="closedCard" style="opacity:0">
+          <div class="idinner" style="position:relative">
+            <div class="confetti" id="confetti"></div>
+            <div class="okcheck"></div>
+            <div style="font-family:var(--display);font-size:42px;font-weight:900;color:var(--green-d)">Hazard Closed</div>
+            <div style="font-size:19px;color:var(--muted);margin-top:8px">SG-2026-00412 · closed by Ashen W. · 19 Oct 2026, 09:21</div>
+            <div style="display:flex;gap:12px;justify-content:center;margin-top:24px">
+              <div class="btn" style="padding:0 28px">Download report</div>
+              <div class="btn sec" style="padding:0 28px">Export register (CSV)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S9 ============ -->
+      <section class="scene" id="s9">
+        <div class="pad">
+          <img src="logo.png" alt="" style="width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 0 34px rgba(24,180,245,.45))" data-anim="pop">
+          <div class="closeline" data-anim="rise" style="animation-delay:.2s">Every hazard seen.<br>Every fix verified.</div>
+          <div class="closesub" data-anim="rise" style="animation-delay:.4s">Built end to end on Google Cloud — inside the Always Free tier.</div>
+          <div class="stack">
+            <span data-anim="pop" style="animation-delay:.6s">Gemini 3.5 Flash</span>
+            <span data-anim="pop" style="animation-delay:.7s">Firestore</span>
+            <span data-anim="pop" style="animation-delay:.8s">Cloud Storage</span>
+            <span data-anim="pop" style="animation-delay:.9s">Cloud Run</span>
+            <span data-anim="pop" style="animation-delay:1s">Cloud Build</span>
+          </div>
+          <div class="links">
+            <span data-anim="fade" style="animation-delay:1.2s">siteguard-ai-463547683061.us-central1.run.app</span>
+            <span data-anim="fade" style="animation-delay:1.35s">github.com/Ashenweerasinghe/siteguard-ai</span>
+          </div>
+          <div class="foot9" data-anim="fade" style="animation-delay:1.6s">SafeGuard AI · Ceylon Innvoai · Google AI Hackathon 2026</div>
+        </div>
+      </section>
+
+      <div class="hud">
+        <span id="hudBeat">01 · THE PROBLEM</span>
+        <span id="hudTime">00:00 / 03:00</span>
+      </div>
+      <div class="slate" id="slate" hidden>
+        <div class="slateinner">
+          <div class="slabel" id="slLabel"></div>
+          <div class="sltitle" id="slTitle"></div>
+          <div class="slhow" id="slHow"></div>
+          <div class="slmeta" id="slMeta"></div>
+          <div class="slbar"><div id="slFill"></div></div>
+        </div>
+      </div>
+      <div class="cap"><div class="inner" id="capText"></div></div>
+      <div class="progress" id="bar"></div>
+      <div class="vignette"></div>
+      <div class="grain"></div>
+    </div>
+  </div>
+
+  <div class="rail">
+    <button class="cbtn pri" id="play">▶&nbsp; Play</button>
+    <button class="cbtn" id="restart">↺&nbsp; Restart</button>
+    <div class="scrub">
+      <input type="range" id="seek" min="0" max="180" step="0.1" value="0" aria-label="Seek">
+      <span class="tc" id="tc">0:00 / 3:00</span>
+    </div>
+    <button class="cbtn" id="caps" aria-pressed="true">Captions</button>
+    <button class="cbtn" id="full">⛶&nbsp; Fullscreen</button>
+    <button class="cbtn" id="slateBtn" aria-pressed="false">Slate mode</button>
+    <button class="cbtn" id="toggleScript" aria-pressed="true">Script</button>
+  </div>
+
+  <section class="sheet" id="segSheet">
+    <h2>Intercut plan · 3 reel segments, 7 capture segments</h2>
+    <p class="note">Turn <b>Slate mode</b> on and record the whole 3:00 once. The yellow slates mark the windows
+      you replace with screen capture of the live app — drop each clip straight onto its slate in your editor and
+      the narration still lines up. Click any segment below to play just that window.</p>
+    <div class="segs" id="segs"></div>
+  </section>
+
+  <section class="sheet" id="scriptSheet">
+    <h2>Narration script · 3:00</h2>
+    <p class="note">Word-for-word voice-over with cue times. Click any line to jump the reel to it. Target pace is about 152 words per minute — brisk, with a beat of silence between cues.</p>
+    <div class="cuelist" id="cuelist"></div>
+  </section>
+</div>
+
+<script>
+/* ---------------- Site illustrations ---------------- */
+function siteSVG(after){
+  const boxes = after ? '' : `
+    <g>
+      <rect x="196" y="300" width="128" height="96" rx="4" fill="#C08A4E"/>
+      <rect x="196" y="300" width="128" height="96" rx="4" fill="none" stroke="#9C6B36" stroke-width="2"/>
+      <path d="M260 300v96" stroke="#9C6B36" stroke-width="2"/>
+      <rect x="214" y="212" width="104" height="88" rx="4" fill="#CE9A5E" stroke="#9C6B36" stroke-width="2"/>
+      <path d="M266 212v88" stroke="#9C6B36" stroke-width="2"/>
+      <rect x="320" y="330" width="96" height="66" rx="4" fill="#B57C44" stroke="#8E6031" stroke-width="2"/>
+      <rect x="150" y="344" width="60" height="52" rx="4" fill="#CE9A5E" stroke="#9C6B36" stroke-width="2"/>
+    </g>`;
+  const mark = after
+    ? `<path d="M120 404 H520" stroke="#F2C230" stroke-width="7" stroke-dasharray="26 16"/>`
+    : `<path d="M120 404 H180" stroke="#F2C230" stroke-width="7" stroke-dasharray="26 16"/>
+       <path d="M430 404 H520" stroke="#F2C230" stroke-width="7" stroke-dasharray="26 16"/>`;
+  return `<svg viewBox="0 0 640 440" role="img" aria-label="${after?'Walkway clear, extinguisher accessible':'Walkway blocked by stacked cartons in front of a fire extinguisher'}">
+    <rect width="640" height="440" fill="#DCE3EB"/>
+    <rect y="250" width="640" height="190" fill="#C3CBD5"/>
+    <rect y="248" width="640" height="6" fill="#AAB4C0"/>
+    <path d="M0 250 L640 250 L640 196 L0 196 Z" fill="#CFD6DE"/>
+    <rect x="40" y="60" width="560" height="140" fill="#E6EBF1"/>
+    <path d="M40 60 H600" stroke="#C3CBD5" stroke-width="3"/>
+    <g opacity=".5"><path d="M110 60v140M250 60v140M390 60v140M530 60v140" stroke="#CFD6DE" stroke-width="3"/></g>
+    <rect x="196" y="92" width="112" height="30" rx="4" fill="#C2342A"/>
+    <text x="252" y="113" font-family="IBM Plex Sans,sans-serif" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">FIRE POINT</text>
+    <rect x="236" y="132" width="34" height="62" rx="8" fill="#C2342A"/>
+    <rect x="246" y="122" width="14" height="12" rx="3" fill="#8E8E93"/>
+    <rect x="240" y="152" width="26" height="20" rx="2" fill="#F4F6F8" opacity=".85"/>
+    ${mark}
+    ${boxes}
+    <g opacity=".9">
+      <rect x="520" y="150" width="78" height="100" fill="#B9C2CD"/>
+      <rect x="520" y="150" width="78" height="14" fill="#9AA6B4"/>
+    </g>
+    ${after?`<g><circle cx="470" cy="150" r="30" fill="#12B76A" opacity=".16"/><path d="M456 150l10 11 20-24" stroke="#067647" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>`:''}
+  </svg>`;
+}
+document.getElementById('photoBefore').innerHTML = siteSVG(false);
+document.getElementById('photoBefore2').innerHTML = siteSVG(false);
+document.getElementById('photoBefore3').innerHTML = siteSVG(false);
+document.getElementById('photoAfter').innerHTML = siteSVG(true);
+document.querySelectorAll('.thumb').forEach(e=>{
+  e.innerHTML = siteSVG(false).replace('<svg ','<svg preserveAspectRatio="xMidYMid slice" ');
+});
+
+/* 14-day observation trend */
+(function(){
+  const vals=[2,1,3,2,4,1,2,5,3,2,4,3,6,4], max=6;
+  document.getElementById('trend').innerHTML =
+    vals.map(v=>`<i class="${v===max?'pk':''}" style="height:${Math.round(v/max*100)}%"></i>`).join('');
+})();
+
+/* waveform bars */
+(function(){
+  const w = document.getElementById('wave1');
+  let h = '';
+  for(let i=0;i<34;i++) h += `<i style="animation-delay:${(i*0.07).toFixed(2)}s;height:${8+((i*7)%22)}px"></i>`;
+  w.innerHTML = h;
+})();
+/* confetti */
+(function(){
+  const c = document.getElementById('confetti');
+  const cols = ['#0A6CFF','#18B4F5','#12B76A','#F79009','#32D583'];
+  let h = '';
+  for(let i=0;i<26;i++) h += `<i style="left:${(i*3.9)%100}%;top:${-10-(i%5)*14}px;background:${cols[i%5]};animation-delay:${(i*0.05).toFixed(2)}s"></i>`;
+  c.innerHTML = h;
+})();
+
+/* ---------------- Timeline ---------------- */
+const SCENES = [
+  {id:'s1', t0:0,   t1:12,  label:'01 · THE PROBLEM'},
+  {id:'s2', t0:12,  t1:25,  label:'02 · SIGN IN'},
+  {id:'s3', t0:25,  t1:40,  label:'03 · DASHBOARD'},
+  {id:'s4', t0:40,  t1:78,  label:'04 · CAPTURE → GEMINI'},
+  {id:'s5', t0:78,  t1:102, label:'05 · THE PROPOSAL'},
+  {id:'s6', t0:102, t1:128, label:'06 · REVIEW & CONFIRM'},
+  {id:'s7', t0:128, t1:148, label:'07 · REGISTER & AUDIT TRAIL'},
+  {id:'s8', t0:148, t1:170, label:'08 · VERIFY & CLOSE'},
+  {id:'s9', t0:170, t1:180, label:'09 · LIVE NOW'}
+];
+const CUES = [
+  {t:0.8,   x:"Falls, blocked walkways and missing PPE still kill more workers than anything else on a site."},
+  {t:6.2,   x:"And most are still caught on paper — if they're caught at all."},
+  {t:12.6,  x:"This is SafeGuard AI."},
+  {t:14.6,  x:"Every reviewer signs in, so every decision in the system carries a name and a timestamp."},
+  {t:20.0,  x:"The AI proposes. A human approves every state change."},
+  {t:25.5,  x:"One screen shows what's open, what's overdue, and what's waiting on a person right now."},
+  {t:31.5,  x:"High risk first, then the corrective actions coming due."},
+  {t:36.0,  x:"Nothing sits in a binder nobody can query."},
+  {t:40.5,  x:"It starts with a photo."},
+  {t:42.5,  x:"A reviewer captures the hazard on a phone, adds a voice note, and tags the location and time."},
+  {t:49.0,  x:"Loading Dock B. Boxes stacked in front of a fire extinguisher."},
+  {t:54.5,  x:"The image, the audio and the typed note go to Gemini 3.5 Flash in a single multimodal call."},
+  {t:61.0,  x:"One model, one call — not three separate pipelines stitched together."},
+  {t:66.0,  x:"A response schema forces the answer back as structured JSON."},
+  {t:71.0,  x:"Category, confidence, risk inputs, suggested actions. Nothing is scraped out of prose."},
+  {t:78.5,  x:"What comes back is a proposal, never a verdict."},
+  {t:82.5,  x:"A hazard category, a calibrated confidence score, the likely impact, suggested corrective actions, and the team that should own them."},
+  {t:91.0,  x:"And when the angle, the lighting or the audio won't support a read, inconclusive is a valid answer."},
+  {t:97.5,  x:"The model says so, instead of guessing."},
+  {t:102.5, x:"Now the reviewer takes the record."},
+  {t:105.0, x:"Edit the finding, set likelihood and severity."},
+  {t:108.5, x:"Risk is computed on a deterministic matrix in plain Python, isolated from the model — so any score can be defended line by line."},
+  {t:117.0, x:"Tick the corrective actions, name the owner, set the target date."},
+  {t:121.5, x:"Nothing is written to the register until a human clicks confirm."},
+  {t:128.5, x:"Every confirmed hazard lands in a Firestore register with its evidence attached."},
+  {t:134.0, x:"And an append-only audit trail: flagged, confirmed, assigned — every change timestamped and attributed."},
+  {t:141.5, x:"The notification feed is built from that same trail, so it can never drift from the record."},
+  {t:148.5, x:"On a later visit, new evidence is compared against the original finding."},
+  {t:153.5, x:"Not re-scanned — compared, against this hazard specifically."},
+  {t:158.0, x:"Gemini recommends closure. The reviewer decides."},
+  {t:162.5, x:"Approve, and the record closes under your name — with the report written for you."},
+  {t:170.5, x:"Gemini, Firestore, Cloud Storage and Cloud Run — live today, inside the free tier."},
+  {t:176.0, x:"SafeGuard AI. Every hazard seen. Every fix verified."}
+];
+const DUR = 180;
+
+/* Which windows come from this reel, and which you replace with screen capture
+   of the live app. The two split inside beat 04: the capture form is real, the
+   multimodal explanation is not something any screen can show. */
+const SEGMENTS = [
+  {n:'01',  name:'The problem',          a:0,   b:12,  src:'reel',
+   how:'Animated statistic. Nothing to capture.'},
+  {n:'02',  name:'Sign in',              a:12,  b:25,  src:'capture',
+   how:'Start logged out on the real login card, type the demo account, Sign in, let the dashboard land.'},
+  {n:'03',  name:'Dashboard',            a:25,  b:40,  src:'capture',
+   how:'Hold on Home. Slow scroll past the four counters, recent observations and actions due.'},
+  {n:'04a', name:'Capture the hazard',   a:40,  b:53,  src:'capture',
+   how:'New Observation step 1: upload the photo, record the voice note, fill location and time, click Analyze with AI.'},
+  {n:'04b', name:'Gemini multimodal call', a:53, b:78, src:'reel',
+   how:'The one call, the response schema, the JSON. Keep this — it is the part the UI cannot show.'},
+  {n:'05',  name:'AI analysis result',   a:78,  b:102, src:'capture',
+   how:'Step 2. Hold on the confidence pill and score bar, then scroll the finding. Cut in the inconclusive example.'},
+  {n:'06',  name:'Review & confirm',     a:102, b:128, src:'capture',
+   how:'Step 3. Change likelihood and severity so the risk level recalculates on camera, tick an action, assign, confirm.'},
+  {n:'07',  name:'Register & audit trail', a:128, b:148, src:'capture',
+   how:'Search the record ID, switch tabs, open the record, scroll its history. Flash Notifications.'},
+  {n:'08',  name:'Verify & close',       a:148, b:170, src:'capture',
+   how:'Follow-ups: submit the after photo, read the verification summary, Approve closure, Download report.'},
+  {n:'09',  name:'Live now',             a:170, b:180, src:'reel',
+   how:'Closing card with the stack and both links.'}
+];
+
+const JSON_SRC = [
+  ['jp','{'],
+  ['nl',''],
+  ['jk','  "hazard_category"'], ['jp',': '], ['jv','"Access obstruction / Walkway"'], ['jp',','],
+  ['nl',''],
+  ['jk','  "confidence"'], ['jp',': '], ['jv','"confirmed"'], ['jp',','],
+  ['nl',''],
+  ['jk','  "confidence_score"'], ['jp',': '], ['jn','86'], ['jp',','],
+  ['nl',''],
+  ['jk','  "likelihood"'], ['jp',': '], ['jn','3'], ['jp',',  '], ['jk','"severity"'], ['jp',': '], ['jn','2'], ['jp',','],
+  ['nl',''],
+  ['jk','  "suggested_actions"'], ['jp',': ['], ['jv','"Relocate stock"'], ['jp',', '], ['jv','"Re-mark walkway"'], ['jp','],'],
+  ['nl',''],
+  ['jk','  "responsible_team"'], ['jp',': '], ['jv','"Warehouse Operations"'], ['jp',','],
+  ['nl',''],
+  ['jk','  "evidence_needed"'], ['jp',': '], ['jv','"Wider shot of the egress route"'],
+  ['nl',''],
+  ['jp','}']
+];
+const JSON_PLAIN = JSON_SRC.map(p => p[0]==='nl' ? '\n' : p[1]).join('');
+const JSON_LEN = JSON_PLAIN.length;
+function jsonHTML(n){
+  let out='', used=0;
+  for(const [cls,txt] of JSON_SRC){
+    if(cls==='nl'){ if(used>=n) break; out+='<br>'; continue; }
+    if(used>=n) break;
+    const take = Math.min(txt.length, n-used);
+    out += `<span class="${cls}">${txt.slice(0,take).replace(/</g,'&lt;')}</span>`;
+    used += take;
+    if(take<txt.length) break;
+  }
+  return out + '<span class="cur">&nbsp;</span>';
+}
+
+/* ---------------- Engine ---------------- */
+const stage=document.getElementById('stage'), frame=document.getElementById('frame');
+const capText=document.getElementById('capText'), bar=document.getElementById('bar');
+const hudBeat=document.getElementById('hudBeat'), hudTime=document.getElementById('hudTime');
+const seek=document.getElementById('seek'), tc=document.getElementById('tc');
+const playBtn=document.getElementById('play');
+const slate=document.getElementById('slate');
+let t=0, playing=false, hasPlayed=false, last=0, activeScene=null, activeCue=-1;
+let slateMode=false, stopAt=DUR, segCards=null, segLive=null;
+
+function fmt(s){ s=Math.max(0,s); const m=Math.floor(s/60); const r=Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
+function fmt2(s){ s=Math.max(0,s); const m=Math.floor(s/60); const r=Math.floor(s%60); return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0'); }
+const clamp01 = v => v<0?0:v>1?1:v;
+const seg = (x,a,b) => clamp01((x-a)/(b-a));
+
+function setScene(sc){
+  if(activeScene===sc.id) return;
+  activeScene=sc.id;
+  SCENES.forEach(s=>{
+    document.getElementById(s.id).classList.toggle('on', s.id===sc.id);
+  });
+  hudBeat.textContent = sc.label;
+}
+
+/* Pin every CSS animation in the active scene to the reel's own clock, so any
+   frame — played, paused or scrubbed — is identical and reproducible. */
+function syncAnims(el, localMs){
+  const list = el.getAnimations ? el.getAnimations({subtree:true}) : [];
+  for(const a of list){
+    try{ a.pause(); a.currentTime = localMs; }catch(e){}
+  }
+}
+
+function render(){
+  const sc = SCENES.find(s=>t>=s.t0 && t<s.t1) || SCENES[SCENES.length-1];
+  setScene(sc);
+  const L = t - sc.t0;
+
+  /* S1: the big number */
+  if(sc.id==='s1'){
+    document.getElementById('bigstat').textContent = Math.round(39*seg(L,0.6,3.4))+'%';
+  }
+  /* S3: counters */
+  if(sc.id==='s3'){
+    document.querySelectorAll('#s3 [data-count]').forEach((el,i)=>{
+      const target=+el.dataset.count, p=seg(L, 0.6+i*0.1, 2.4+i*0.1);
+      el.textContent = Math.round(target*p);
+    });
+  }
+  /* S4: app → pipeline, JSON typing */
+  if(sc.id==='s4'){
+    const app=document.getElementById('s4app'), pipe=document.getElementById('s4pipe');
+    const toPipe = seg(L,13.2,14.4);
+    app.style.opacity = 1-toPipe;
+    app.style.transform = `scale(${1-0.05*toPipe})`;
+    pipe.style.opacity = toPipe;
+    pipe.style.transform = `scale(${0.96+0.04*toPipe})`;
+    const typed = Math.floor(JSON_LEN * seg(L, 23.5, 35.5));
+    const out=document.getElementById('jsonOut');
+    if(out.dataset.n!==String(typed)){ out.dataset.n=String(typed); out.innerHTML = jsonHTML(typed); }
+  }
+  /* S5: confidence bar + inconclusive card */
+  if(sc.id==='s5'){
+    const p = seg(L,1.2,4.2), v = Math.round(86*p);
+    document.querySelector('#confBar>div').style.width = v+'%';
+    document.getElementById('confNum').textContent = v;
+    const ic=document.getElementById('inconcCard'), q=seg(L,13.5,14.6);
+    ic.style.opacity=q; ic.style.transform=`translateY(${(1-q)*30}px)`;
+  }
+  /* S6: likelihood/severity, matrix, risk pill, checks, record card */
+  if(sc.id==='s6'){
+    const L_ = L<8 ? 2 : 3;
+    const S_ = L<12 ? 2 : 3;
+    const segL=document.getElementById('segL').children, segS=document.getElementById('segS').children;
+    [...segL].forEach((e,i)=>e.classList.toggle('on', i===L_-1));
+    [...segS].forEach((e,i)=>e.classList.toggle('on', i===S_-1));
+    const score=L_*S_;
+    const rp=document.getElementById('riskPill');
+    rp.textContent = score+' · '+(score>=7?'High':score>=4?'Medium':'Low');
+    rp.className = 'riskpill '+(score>=7?'p-high':score>=4?'p-med':'p-low');
+    document.querySelectorAll('#matrix .cell').forEach(c=>c.classList.toggle('live', c.dataset.c===L_+'-'+S_));
+    ['chk1','chk2','chk3'].forEach((id,i)=>document.getElementById(id).classList.toggle('tick', L>14+i*1.1));
+    const ic=document.getElementById('idCard'), q=seg(L,19.2,20.4);
+    ic.style.opacity=q; ic.style.transform=`scale(${0.94+0.06*q})`;
+  }
+  /* S8: before→after wipe, closure card */
+  if(sc.id==='s8'){
+    const w=seg(L,2.2,4.6);
+    document.getElementById('wipeCover').style.transform = `translateX(${w*101}%)`;
+    const cc=document.getElementById('closedCard'), q=seg(L,15.4,16.6);
+    cc.style.opacity=q; cc.style.transform=`scale(${0.94+0.06*q})`;
+  }
+
+  syncAnims(document.getElementById(sc.id), L*1000);
+
+  /* slate over the windows that screen capture replaces */
+  const sg = SEGMENTS.find(s=>t>=s.a && t<s.b) || SEGMENTS[SEGMENTS.length-1];
+  const showSlate = slateMode && sg.src==='capture';
+  slate.hidden = !showSlate;
+  if(showSlate && slate.dataset.n!==sg.n){
+    slate.dataset.n = sg.n;
+    document.getElementById('slLabel').textContent = 'Screen capture · segment '+sg.n;
+    document.getElementById('slTitle').textContent = sg.name;
+    document.getElementById('slHow').textContent = sg.how;
+  }
+  if(showSlate){
+    document.getElementById('slMeta').textContent =
+      fmt2(sg.a)+' → '+fmt2(sg.b)+'   ·   '+Math.round(sg.b-sg.a)+'s   ·   '+Math.ceil(sg.b-t)+'s left';
+    document.getElementById('slFill').style.width = (seg(t,sg.a,sg.b)*100)+'%';
+  }
+  if(segCards && segLive!==sg.n){
+    segLive = sg.n;
+    segCards.forEach(c=>c.classList.toggle('live', c.dataset.n===sg.n));
+  }
+
+  /* captions */
+  let ci=-1;
+  for(let i=0;i<CUES.length;i++){ if(t>=CUES[i].t) ci=i; else break; }
+  if(ci!==activeCue){
+    activeCue=ci;
+    capText.textContent = ci<0 ? '' : CUES[ci].x;
+    document.querySelectorAll('.cue').forEach((e,i)=>e.classList.toggle('live', i===ci));
+    const liveEl=document.querySelector('.cue.live');
+    if(liveEl && playing) liveEl.scrollIntoView({block:'nearest'});
+  }
+
+  bar.style.width = (t/DUR*100)+'%';
+  hudTime.textContent = fmt2(t)+' / 03:00';
+  tc.textContent = fmt(t)+' / 3:00';
+  if(document.activeElement!==seek) seek.value = t.toFixed(1);
+}
+
+function loop(ts){
+  if(!playing) return;
+  if(!last) last=ts;
+  t += (ts-last)/1000; last=ts;
+  if(t>=stopAt){ t=stopAt; pause(); render(); return; }
+  render();
+  requestAnimationFrame(loop);
+}
+function play(){
+  stopAt=DUR;
+  if(t>=DUR || !hasPlayed) t=0;
+  hasPlayed=true; playing=true; last=0;
+  playBtn.textContent='❚❚  Pause';
+  requestAnimationFrame(loop);
+}
+function playRange(a,b){
+  t=a; stopAt=b; hasPlayed=true; playing=true; last=0;
+  activeScene=null; activeCue=-1;
+  playBtn.textContent='❚❚  Pause';
+  render();
+  requestAnimationFrame(loop);
+}
+function pause(){
+  playing=false;
+  playBtn.textContent='▶  Play';
+}
+playBtn.onclick = ()=> playing?pause():play();
+document.getElementById('restart').onclick = ()=>{ stopAt=DUR; t=0; hasPlayed=true; activeScene=null; activeCue=-1; render(); play(); };
+seek.oninput = ()=>{ t=+seek.value; stopAt=DUR; activeScene=null; activeCue=-1; render(); };
+document.getElementById('slateBtn').onclick = e=>{
+  slateMode = !slateMode;
+  e.currentTarget.setAttribute('aria-pressed', String(slateMode));
+  slate.dataset.n=''; render();
+};
+document.getElementById('caps').onclick = e=>{
+  const on = stage.classList.toggle('nocap');
+  e.currentTarget.setAttribute('aria-pressed', String(!on));
+};
+document.getElementById('full').onclick = ()=>{
+  if(document.fullscreenElement) document.exitFullscreen?.();
+  else frame.requestFullscreen?.().catch(()=>{});
+};
+document.addEventListener('fullscreenchange', ()=>{ frame.classList.toggle('full', !!document.fullscreenElement); fit(); });
+document.getElementById('toggleScript').onclick = e=>{
+  const sheet=document.getElementById('scriptSheet');
+  sheet.hidden = !sheet.hidden;
+  e.currentTarget.setAttribute('aria-pressed', String(!sheet.hidden));
+};
+addEventListener('keydown', e=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.code==='Space'){ e.preventDefault(); playing?pause():play(); }
+  if(e.key==='ArrowRight'){ t=Math.min(DUR,t+5); activeScene=null; activeCue=-1; render(); }
+  if(e.key==='ArrowLeft'){ t=Math.max(0,t-5); activeScene=null; activeCue=-1; render(); }
+});
+
+/* segment cards */
+(function(){
+  const box=document.getElementById('segs');
+  box.innerHTML = SEGMENTS.map(s=>`
+    <button class="seg-c" data-n="${s.n}" data-a="${s.a}" data-b="${s.b}">
+      <span class="seg-top">
+        <span class="seg-n">${s.n}</span>
+        <span class="seg-src ${s.src}">${s.src==='reel'?'Reel':'Screen capture'}</span>
+      </span>
+      <span class="seg-name">${s.name}</span>
+      <span class="seg-t">${fmt2(s.a)} → ${fmt2(s.b)} · ${Math.round(s.b-s.a)}s</span>
+      <span class="seg-how">${s.how}</span>
+    </button>`).join('');
+  box.addEventListener('click', e=>{
+    const b=e.target.closest('.seg-c'); if(!b) return;
+    playRange(+b.dataset.a, +b.dataset.b);
+  });
+  segCards = [...box.querySelectorAll('.seg-c')];
+})();
+
+/* script sheet */
+(function(){
+  const list=document.getElementById('cuelist');
+  let html='', si=0;
+  CUES.forEach((c,i)=>{
+    while(si<SCENES.length && c.t>=SCENES[si].t0){
+      html += `<div class="beatmark">${SCENES[si].label} &nbsp;·&nbsp; ${fmt2(SCENES[si].t0)}–${fmt2(SCENES[si].t1)}</div>`;
+      si++;
+    }
+    html += `<button class="cue" data-t="${c.t}"><span class="t">${fmt2(c.t)}</span><span class="x">${c.x}</span></button>`;
+  });
+  list.innerHTML = html;
+  list.addEventListener('click', e=>{
+    const b=e.target.closest('.cue'); if(!b) return;
+    t=+b.dataset.t; activeScene=null; activeCue=-1; render();
+  });
+})();
+
+/* fit stage */
+function fit(){
+  const w=frame.clientWidth, h=frame.clientHeight;
+  const s=Math.min(w/1920, h/1080);
+  stage.style.transform=`scale(${s})`;
+  stage.style.left = ((w-1920*s)/2)+'px';
+  stage.style.top  = ((h-1080*s)/2)+'px';
+}
+addEventListener('resize', fit);
+fit();
+/* open on a composed frame rather than a black fade-in; Play still starts at 0:00 */
+t = 5.2;
+render();
+pause();
+document.fonts?.ready.then(()=>{ fit(); render(); });
+</script>
