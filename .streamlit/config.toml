@@ -1,12 +1,20 @@
 [theme]
 base = "light"
-primaryColor = "#D9730D"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F4F2EE"
-textColor = "#1C1B1A"
+primaryColor = "#0A6CFF"
+backgroundColor = "#F4F7FB"
+secondaryBackgroundColor = "#EEF3F9"
+textColor = "#0F1B2D"
 font = "sans serif"
+
+[theme.sidebar]
+backgroundColor = "#0B1A2C"
+secondaryBackgroundColor = "#13283F"
+textColor = "#C9D6E8"
 
 [server]
 headless = true
 enableCORS = false
 maxUploadSize = 25
+
+[client]
+toolbarMode = "minimal"

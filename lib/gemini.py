@@ -18,6 +18,11 @@ from google.genai import types
 from .schema import GeminiFinding, GeminiFollowup
 
 MODEL_NAME = "gemini-3.5-flash"
+
+# Set SITEGUARD_MOCK_AI=1 to run the full workflow without calling Gemini (offline
+# demos, rate-limit fallback, UI testing). The UI shows a "Demo AI" badge when on.
+def mock_enabled() -> bool:
+    return os.environ.get("SITEGUARD_MOCK_AI", "").strip().lower() in {"1", "true", "yes"}
 _MAX_RETRIES = 4
 _RETRY_DELAYS_SECONDS = (2, 5, 10)
 
@@ -66,21 +71,31 @@ def analyze_hazard(
     audio_bytes: bytes | None = None,
     audio_mime_type: str | None = None,
     voice_note_transcript_hint: str | None = None,
+    reviewer_note: str | None = None,
+    image_name: str = "",
 ) -> GeminiFinding:
-    """Single multimodal call: photo (+ optional voice note) in, structured finding out."""
+    """Single multimodal call: photo (+ optional voice note / typed note) in, structured finding out."""
+    if mock_enabled():
+        from .mock_ai import mock_finding
+
+        return mock_finding(image_name, reviewer_note or "")
+
     client = _client()
+    note_line = f"\nReviewer's typed note: {reviewer_note}" if reviewer_note else ""
 
     prompt = f"""{_SCENARIOS}
 
-Site: {site}
+Site / location: {site}
 Date: {date}
-Activity: {activity}
+Activity: {activity or "not specified"}{note_line}
 
 Examine the attached photo{" and voice note" if audio_bytes else ""} for evidence of any of the \
 three in-scope hazard scenarios. Report your finding as structured data. Provide a suggested \
 likelihood (1-3: how likely this leads to an incident) and severity (1-3: how bad the outcome \
 would be) for a deterministic risk matrix a reviewer will apply -- these are your estimates, \
-not a final risk rating."""
+not a final risk rating. Also give a short title, a 0-100 confidence_score, the potential impact, \
+2-4 concrete suggested corrective actions, the most likely responsible team, and any additional \
+evidence that would make the finding clearer. The typed note is context from the reviewer, not proof."""
 
     parts: list = [types.Part.from_bytes(data=image_bytes, mime_type=image_mime_type)]
     if audio_bytes:
@@ -107,8 +122,14 @@ def analyze_followup(
     new_image_mime_type: str,
     original_finding_description: str,
     original_scenario: str,
+    reviewer_note: str | None = None,
 ) -> GeminiFollowup:
     """Compare original + new evidence for one hazard and judge whether closure is supported."""
+    if mock_enabled():
+        from .mock_ai import mock_followup
+
+        return mock_followup(reviewer_note or "")
+
     client = _client()
 
     prompt = f"""This is a follow-up inspection for a previously flagged hazard.
@@ -119,7 +140,8 @@ Original finding: {original_finding_description}
 The first image is the ORIGINAL evidence. The second image is NEW evidence from a later visit. \
 Compare them specifically for whether the original hazard condition has been remediated. Do not \
 perform a generic re-analysis -- answer specifically whether the new evidence supports closing \
-this particular hazard, remains inconclusive, or shows the hazard is still present."""
+this particular hazard, remains inconclusive, or shows the hazard is still present.\
+{f" Reviewer's note on the corrective work: {reviewer_note}" if reviewer_note else ""}"""
 
     parts = [
         types.Part.from_bytes(data=original_image_bytes, mime_type=original_image_mime_type),
