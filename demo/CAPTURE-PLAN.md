@@ -1,4 +1,4 @@
-# SafeGuard AI — intercut capture plan
+# SiteGuard AI — intercut capture plan
 
 How to build the 3:00 submission video from two sources: the animated reel
 (`safeguard-demo-reel.html`) and screen capture of the live app at
@@ -13,20 +13,23 @@ so nothing needs re-timing.
 
 | # | Window | Length | Source | What's on screen |
 |---|---|---|---|---|
-| 01 | 0:00–0:12 | 12s | **Reel** | "39%" statistic animation |
-| 02 | 0:12–0:25 | 13s | Capture | Login card → sign in → dashboard lands |
-| 03 | 0:25–0:40 | 15s | Capture | Home dashboard |
-| 04a | 0:40–0:53 | 13s | Capture | New Observation step 1 → Analyze with AI |
-| 04b | 0:53–1:18 | 25s | **Reel** | Multimodal call + response schema JSON |
-| 05 | 1:18–1:42 | 24s | Capture | AI Analysis Result (+ inconclusive example) |
-| 06 | 1:42–2:08 | 26s | Capture | Review & Confirm → record created |
-| 07 | 2:08–2:28 | 20s | Capture | Hazard Register + history |
-| 08 | 2:28–2:50 | 22s | Capture | Follow-ups → approve closure → report |
-| 09 | 2:50–3:00 | 10s | **Reel** | Closing card, stack, links |
+| 01 | 0:00–0:11 | 11s | **Reel** | "39%" statistic animation |
+| 02 | 0:11–0:23 | 12s | Capture | Login card → sign in → dashboard lands |
+| 03 | 0:23–0:36 | 13s | Capture | Home dashboard |
+| 04a | 0:36–0:49 | 13s | Capture | New Observation step 1 → Analyze with AI |
+| 04b | 0:49–1:10 | 21s | **Reel** | Multimodal call + response schema JSON |
+| 05 | 1:10–1:32 | 22s | Capture | AI Analysis Result (+ inconclusive example) |
+| 06 | 1:32–1:55 | 23s | Capture | Review & Confirm → record created |
+| 07 | 1:55–2:12 | 17s | Capture | Hazard Register + history |
+| 08 | 2:12–2:32 | 20s | Capture | Follow-ups → approve closure → report |
+| 09 | 2:32–2:50 | 18s | Capture | Site Insights → generate → focus areas |
+| 10 | 2:50–3:00 | 10s | **Reel** | Closing card, team, stack, links |
+
+Reel total 42s · capture total 138s.
 
 Reel total 47s · capture total 133s.
 
-Segment 04 splits at 0:53 because the reel cross-fades from the app mock to the
+Segment 04 splits at 0:49 because the reel cross-fades from the app mock to the
 pipeline graphic there. Capture ends on the Analyze click; the reel takes over
 for the explanation of what that click does.
 
@@ -88,6 +91,13 @@ Tick a suggested action, pick the team, set the target date, click
 Hazard Register. Type the record ID into search, switch between the All / Open /
 In Progress / Closed tabs so the counts change, open the record, scroll to
 **History** and hold while the entries read. Flash Notifications for the last 2s.
+
+### 09 · Site Insights — 18s
+Site Insights. Hold 4s on the four computed counters and the "computed, not
+generated" note. Click **Generate site insights**, wait for the briefing, then
+scroll slowly through the focus areas and the blind-spots panel. This is the
+beat that answers the Manufacturing theme's "operational insight" wording, so
+let the recommendations be readable rather than rushing the scroll.
 
 ### 08 · Verify & close — 22s
 Follow-ups. Pick the hazard, upload the after photo, **Submit for Verification**.

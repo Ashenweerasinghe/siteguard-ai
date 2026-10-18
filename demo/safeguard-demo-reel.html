@@ -1,4 +1,4 @@
-<title>SafeGuard AI Demo Reel</title>
+<title>SiteGuard AI Demo Reel</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
@@ -354,6 +354,7 @@ body{
 
 /* ---------- Slate (marks a window that real screen capture replaces) ---------- */
 .slate{position:absolute;inset:0;z-index:43;background:#07101C;display:flex;align-items:center;justify-content:center}
+.slate[hidden]{display:none}
 .slate::before,.slate::after{content:"";position:absolute;left:0;right:0;height:22px;
   background:repeating-linear-gradient(135deg,#F2C230 0 26px,#1A1206 26px 52px)}
 .slate::before{top:0} .slate::after{bottom:0}
@@ -423,7 +424,7 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
 
 <div class="page">
   <div class="frame" id="frame">
-    <div id="stage" aria-label="SafeGuard AI demo reel">
+    <div id="stage" aria-label="SiteGuard AI demo reel">
 
       <!-- ============ S1 ============ -->
       <section class="scene" id="s1">
@@ -446,7 +447,7 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
           <div class="brandblock">
             <div class="brandmark" data-anim="rise">
               <img src="logo.png" alt="">
-              <div class="wordmark">SAFE<em>GUARD</em> AI</div>
+              <div class="wordmark">SITE<em>GUARD</em> AI</div>
             </div>
             <p class="tagline" data-anim="rise" style="animation-delay:.2s">Safer workplaces,<br>smarter decisions.</p>
             <div data-anim="rise" style="display:flex;gap:18px;margin-top:22px;font-size:20px;font-weight:600;color:#9FD9FA;animation-delay:.35s">
@@ -469,7 +470,7 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
       <section class="scene" id="s3">
         <div class="shell">
           <nav class="side" data-anim="left">
-            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="sbrand"><img src="logo.png" alt="">SiteGuard AI</div>
             <div class="nav act"><span class="ic"></span>Home</div>
             <div class="nav"><span class="ic"></span>New Observation</div>
             <div class="nav"><span class="ic"></span>Hazard Register</div>
@@ -539,7 +540,7 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
       <section class="scene" id="s4">
         <div class="shell" id="s4app">
           <nav class="side">
-            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="sbrand"><img src="logo.png" alt="">SiteGuard AI</div>
             <div class="nav"><span class="ic"></span>Home</div>
             <div class="nav act"><span class="ic"></span>New Observation</div>
             <div class="nav"><span class="ic"></span>Hazard Register</div>
@@ -614,7 +615,7 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
       <section class="scene" id="s5">
         <div class="shell">
           <nav class="side">
-            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="sbrand"><img src="logo.png" alt="">SiteGuard AI</div>
             <div class="nav"><span class="ic"></span>Home</div>
             <div class="nav act"><span class="ic"></span>New Observation</div>
             <div class="nav"><span class="ic"></span>Hazard Register</div>
@@ -679,7 +680,7 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
       <section class="scene" id="s6">
         <div class="shell">
           <nav class="side">
-            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="sbrand"><img src="logo.png" alt="">SiteGuard AI</div>
             <div class="nav"><span class="ic"></span>Home</div>
             <div class="nav act"><span class="ic"></span>New Observation</div>
             <div class="nav"><span class="ic"></span>Hazard Register</div>
@@ -753,7 +754,7 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
       <section class="scene" id="s7">
         <div class="shell">
           <nav class="side">
-            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="sbrand"><img src="logo.png" alt="">SiteGuard AI</div>
             <div class="nav"><span class="ic"></span>Home</div>
             <div class="nav"><span class="ic"></span>New Observation</div>
             <div class="nav act"><span class="ic"></span>Hazard Register</div>
@@ -823,7 +824,7 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
       <section class="scene" id="s8">
         <div class="shell">
           <nav class="side">
-            <div class="sbrand"><img src="logo.png" alt="">SafeGuard AI</div>
+            <div class="sbrand"><img src="logo.png" alt="">SiteGuard AI</div>
             <div class="nav"><span class="ic"></span>Home</div>
             <div class="nav"><span class="ic"></span>New Observation</div>
             <div class="nav"><span class="ic"></span>Hazard Register</div>
@@ -875,6 +876,58 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
         </div>
       </section>
 
+      <!-- ============ S8b · SITE INSIGHTS ============ -->
+      <section class="scene" id="s8b">
+        <div class="shell">
+          <nav class="side">
+            <div class="sbrand"><img src="logo.png" alt="">SiteGuard AI</div>
+            <div class="nav"><span class="ic"></span>Home</div>
+            <div class="nav"><span class="ic"></span>New Observation</div>
+            <div class="nav"><span class="ic"></span>Hazard Register</div>
+            <div class="nav"><span class="ic"></span>My Tasks</div>
+            <div class="nav"><span class="ic"></span>Follow-ups</div>
+            <div class="nav"><span class="ic"></span>Reports</div>
+            <div class="nav"><span class="ic"></span>Analytics</div>
+            <div class="nav act"><span class="ic"></span>Site Insights</div>
+            <div class="nav"><span class="ic"></span>Notifications<span class="badge">4</span></div>
+          </nav>
+          <div class="main">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px" data-anim="fade">
+              <h2 style="font-family:var(--display);font-size:28px;margin:0;font-weight:800">Site Insights</h2>
+              <span class="pill p-cyan">One call over the whole register</span>
+            </div>
+            <div class="tiles" data-anim="rise" style="animation-delay:.15s">
+              <div class="tile op"><b>27</b><span>Confirmed records</span></div>
+              <div class="tile ip"><b>12</b><span>Still open</span></div>
+              <div class="tile hi"><b>3</b><span>Overdue actions</span></div>
+              <div class="tile cl"><b>2.4</b><span>Avg. days to close</span></div>
+            </div>
+            <div class="callout c-info" data-anim="fade" style="animation-delay:.4s;font-size:16px">
+              <b>The figures above are computed, not generated.</b> Gemini is given the aggregated digest and asked to
+              interpret it. It never counts, so every number it quotes can be checked against the register.
+            </div>
+            <div class="resgrid" style="grid-template-columns:1fr 1fr;margin-top:16px">
+              <div class="panel" data-anim="left" style="animation-delay:4.2s">
+                <h4>Recommended focus areas</h4>
+                <div class="chk tick" style="align-items:center"><span class="box"></span>
+                  <span><b>Loading Dock B set-down</b><br><span style="color:var(--muted)">Mark a set-down zone clear of the egress route and brief the delivery crew.</span></span></div>
+                <div class="chk tick" style="align-items:center"><span class="box"></span>
+                  <span><b>Overdue corrective actions</b><br><span style="color:var(--muted)">Re-sequence by risk and confirm owners at the Monday stand-up.</span></span></div>
+                <div style="display:flex;gap:8px;margin-top:10px">
+                  <span class="pill p-open">Warehouse Operations</span><span class="pill p-open">Safety Team</span>
+                </div>
+              </div>
+              <div class="panel" data-anim="right" style="animation-delay:8.4s">
+                <h4>What this register cannot tell you <span class="pill p-med">Blind spots</span></h4>
+                <p style="font-size:16px;color:#2B3C52;margin:.2rem 0 .5rem">• The register only holds what someone photographed — unreported areas look clean here.</p>
+                <p style="font-size:16px;color:#2B3C52;margin:0 0 .5rem">• Closure speed reflects when evidence was submitted, not when the fix was made.</p>
+                <div class="callout c-warn" style="font-size:15px">The model names its own limits rather than inventing a pattern from a thin register.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ============ S9 ============ -->
       <section class="scene" id="s9">
         <div class="pad">
@@ -892,7 +945,8 @@ input[type=range]{flex:1;min-width:0;accent-color:#18B4F5;height:22px}
             <span data-anim="fade" style="animation-delay:1.2s">siteguard-ai-463547683061.us-central1.run.app</span>
             <span data-anim="fade" style="animation-delay:1.35s">github.com/Ashenweerasinghe/siteguard-ai</span>
           </div>
-          <div class="foot9" data-anim="fade" style="animation-delay:1.6s">SafeGuard AI · Ceylon Innvoai · Google AI Hackathon 2026</div>
+          <div class="foot9" data-anim="fade" style="animation-delay:1.55s">Team Ceylon InnovAI · Maniesha Abeysekera · Ashen Weerasinghe</div>
+          <div class="foot9" data-anim="fade" style="animation-delay:1.7s;margin-top:10px;color:#4E6687">Google AI Hackathon 2026 · Manufacturing: Intelligent Operations &amp; Industrial Efficiency</div>
         </div>
       </section>
 
@@ -1016,50 +1070,54 @@ document.querySelectorAll('.thumb').forEach(e=>{
 
 /* ---------------- Timeline ---------------- */
 const SCENES = [
-  {id:'s1', t0:0,   t1:12,  label:'01 · THE PROBLEM'},
-  {id:'s2', t0:12,  t1:25,  label:'02 · SIGN IN'},
-  {id:'s3', t0:25,  t1:40,  label:'03 · DASHBOARD'},
-  {id:'s4', t0:40,  t1:78,  label:'04 · CAPTURE → GEMINI'},
-  {id:'s5', t0:78,  t1:102, label:'05 · THE PROPOSAL'},
-  {id:'s6', t0:102, t1:128, label:'06 · REVIEW & CONFIRM'},
-  {id:'s7', t0:128, t1:148, label:'07 · REGISTER & AUDIT TRAIL'},
-  {id:'s8', t0:148, t1:170, label:'08 · VERIFY & CLOSE'},
-  {id:'s9', t0:170, t1:180, label:'09 · LIVE NOW'}
+  {id:'s1',  t0:0,   t1:11,  label:'01 · THE PROBLEM'},
+  {id:'s2',  t0:11,  t1:23,  label:'02 · SIGN IN'},
+  {id:'s3',  t0:23,  t1:36,  label:'03 · DASHBOARD'},
+  {id:'s4',  t0:36,  t1:70,  label:'04 · CAPTURE → GEMINI'},
+  {id:'s5',  t0:70,  t1:92,  label:'05 · THE PROPOSAL'},
+  {id:'s6',  t0:92,  t1:115, label:'06 · REVIEW & CONFIRM'},
+  {id:'s7',  t0:115, t1:132, label:'07 · REGISTER & AUDIT TRAIL'},
+  {id:'s8',  t0:132, t1:152, label:'08 · VERIFY & CLOSE'},
+  {id:'s8b', t0:152, t1:170, label:'09 · SITE INSIGHTS'},
+  {id:'s9',  t0:170, t1:180, label:'10 · LIVE NOW'}
 ];
 const CUES = [
-  {t:0.8,   x:"Falls, blocked walkways and missing PPE still kill more workers than anything else on a site."},
-  {t:6.2,   x:"And most are still caught on paper — if they're caught at all."},
-  {t:12.6,  x:"This is SafeGuard AI."},
-  {t:14.6,  x:"Every reviewer signs in, so every decision in the system carries a name and a timestamp."},
-  {t:20.0,  x:"The AI proposes. A human approves every state change."},
-  {t:25.5,  x:"One screen shows what's open, what's overdue, and what's waiting on a person right now."},
-  {t:31.5,  x:"High risk first, then the corrective actions coming due."},
-  {t:36.0,  x:"Nothing sits in a binder nobody can query."},
-  {t:40.5,  x:"It starts with a photo."},
-  {t:42.5,  x:"A reviewer captures the hazard on a phone, adds a voice note, and tags the location and time."},
-  {t:49.0,  x:"Loading Dock B. Boxes stacked in front of a fire extinguisher."},
-  {t:54.5,  x:"The image, the audio and the typed note go to Gemini 3.5 Flash in a single multimodal call."},
-  {t:61.0,  x:"One model, one call — not three separate pipelines stitched together."},
-  {t:66.0,  x:"A response schema forces the answer back as structured JSON."},
-  {t:71.0,  x:"Category, confidence, risk inputs, suggested actions. Nothing is scraped out of prose."},
-  {t:78.5,  x:"What comes back is a proposal, never a verdict."},
-  {t:82.5,  x:"A hazard category, a calibrated confidence score, the likely impact, suggested corrective actions, and the team that should own them."},
-  {t:91.0,  x:"And when the angle, the lighting or the audio won't support a read, inconclusive is a valid answer."},
-  {t:97.5,  x:"The model says so, instead of guessing."},
-  {t:102.5, x:"Now the reviewer takes the record."},
-  {t:105.0, x:"Edit the finding, set likelihood and severity."},
-  {t:108.5, x:"Risk is computed on a deterministic matrix in plain Python, isolated from the model — so any score can be defended line by line."},
-  {t:117.0, x:"Tick the corrective actions, name the owner, set the target date."},
-  {t:121.5, x:"Nothing is written to the register until a human clicks confirm."},
-  {t:128.5, x:"Every confirmed hazard lands in a Firestore register with its evidence attached."},
-  {t:134.0, x:"And an append-only audit trail: flagged, confirmed, assigned — every change timestamped and attributed."},
-  {t:141.5, x:"The notification feed is built from that same trail, so it can never drift from the record."},
-  {t:148.5, x:"On a later visit, new evidence is compared against the original finding."},
-  {t:153.5, x:"Not re-scanned — compared, against this hazard specifically."},
-  {t:158.0, x:"Gemini recommends closure. The reviewer decides."},
-  {t:162.5, x:"Approve, and the record closes under your name — with the report written for you."},
+  {t:0.7,   x:"Falls, blocked walkways and missing PPE still kill more workers than anything else on a site."},
+  {t:6.0,   x:"And most are still caught on paper — if they're caught at all."},
+  {t:11.5,  x:"This is SiteGuard AI."},
+  {t:13.5,  x:"Every reviewer signs in, so every decision in the system carries a name and a timestamp."},
+  {t:19.0,  x:"The AI proposes. A human approves every state change."},
+  {t:23.5,  x:"One screen shows what's open, what's overdue, and what's waiting on a person right now."},
+  {t:29.0,  x:"High risk first, then the corrective actions coming due."},
+  {t:33.0,  x:"Nothing sits in a binder nobody can query."},
+  {t:36.5,  x:"It starts with a photo."},
+  {t:38.5,  x:"A reviewer captures the hazard on a phone, adds a voice note, and tags the location and time."},
+  {t:44.5,  x:"Loading Dock B. Boxes stacked in front of a fire extinguisher."},
+  {t:49.0,  x:"The image, the audio and the typed note go to Gemini 3.5 Flash in a single multimodal call."},
+  {t:55.5,  x:"One model, one call — not three separate pipelines stitched together."},
+  {t:60.0,  x:"A response schema forces the answer back as structured JSON."},
+  {t:64.5,  x:"Category, confidence, risk inputs, suggested actions. Nothing is scraped out of prose."},
+  {t:70.5,  x:"What comes back is a proposal, never a verdict."},
+  {t:74.0,  x:"A hazard category, a calibrated confidence score, the likely impact, and the team that should own the fix."},
+  {t:81.0,  x:"And when the angle, the lighting or the audio won't support a read, inconclusive is a valid answer."},
+  {t:87.5,  x:"The model says so, instead of guessing."},
+  {t:92.5,  x:"Now the reviewer takes the record."},
+  {t:95.0,  x:"Edit the finding, set likelihood and severity."},
+  {t:98.5,  x:"Risk is computed on a deterministic matrix in plain Python, isolated from the model — so any score can be defended line by line."},
+  {t:106.0, x:"Tick the corrective actions, name the owner, set the target date."},
+  {t:110.0, x:"Nothing is written to the register until a human clicks confirm."},
+  {t:115.5, x:"Every confirmed hazard lands in a Firestore register with its evidence attached."},
+  {t:120.5, x:"And an append-only audit trail: flagged, confirmed, assigned — every change timestamped and attributed."},
+  {t:127.0, x:"The notification feed is built from that same trail, so it can never drift from the record."},
+  {t:132.5, x:"On a later visit, new evidence is compared against the original finding."},
+  {t:137.0, x:"Not re-scanned — compared, against this hazard specifically."},
+  {t:141.5, x:"Gemini recommends closure. The reviewer decides."},
+  {t:145.5, x:"Approve, and the record closes under your name — with the report written for you."},
+  {t:152.5, x:"One call doesn't have to read one photo. It can read the whole register."},
+  {t:158.0, x:"Site Insights asks Gemini where hazards recur and which teams are slipping."},
+  {t:163.5, x:"The counts are computed in Python — the model only interprets them, and names its own blind spots."},
   {t:170.5, x:"Gemini, Firestore, Cloud Storage and Cloud Run — live today, inside the free tier."},
-  {t:176.0, x:"SafeGuard AI. Every hazard seen. Every fix verified."}
+  {t:176.0, x:"SiteGuard AI. Every hazard seen. Every fix verified."}
 ];
 const DUR = 180;
 
@@ -1067,26 +1125,28 @@ const DUR = 180;
    of the live app. The two split inside beat 04: the capture form is real, the
    multimodal explanation is not something any screen can show. */
 const SEGMENTS = [
-  {n:'01',  name:'The problem',          a:0,   b:12,  src:'reel',
+  {n:'01',  name:'The problem',          a:0,   b:11,  src:'reel',
    how:'Animated statistic. Nothing to capture.'},
-  {n:'02',  name:'Sign in',              a:12,  b:25,  src:'capture',
+  {n:'02',  name:'Sign in',              a:11,  b:23,  src:'capture',
    how:'Start logged out on the real login card, type the demo account, Sign in, let the dashboard land.'},
-  {n:'03',  name:'Dashboard',            a:25,  b:40,  src:'capture',
+  {n:'03',  name:'Dashboard',            a:23,  b:36,  src:'capture',
    how:'Hold on Home. Slow scroll past the four counters, recent observations and actions due.'},
-  {n:'04a', name:'Capture the hazard',   a:40,  b:53,  src:'capture',
+  {n:'04a', name:'Capture the hazard',   a:36,  b:49,  src:'capture',
    how:'New Observation step 1: upload the photo, record the voice note, fill location and time, click Analyze with AI.'},
-  {n:'04b', name:'Gemini multimodal call', a:53, b:78, src:'reel',
+  {n:'04b', name:'Gemini multimodal call', a:49, b:70, src:'reel',
    how:'The one call, the response schema, the JSON. Keep this — it is the part the UI cannot show.'},
-  {n:'05',  name:'AI analysis result',   a:78,  b:102, src:'capture',
+  {n:'05',  name:'AI analysis result',   a:70,  b:92,  src:'capture',
    how:'Step 2. Hold on the confidence pill and score bar, then scroll the finding. Cut in the inconclusive example.'},
-  {n:'06',  name:'Review & confirm',     a:102, b:128, src:'capture',
+  {n:'06',  name:'Review & confirm',     a:92,  b:115, src:'capture',
    how:'Step 3. Change likelihood and severity so the risk level recalculates on camera, tick an action, assign, confirm.'},
-  {n:'07',  name:'Register & audit trail', a:128, b:148, src:'capture',
+  {n:'07',  name:'Register & audit trail', a:115, b:132, src:'capture',
    how:'Search the record ID, switch tabs, open the record, scroll its history. Flash Notifications.'},
-  {n:'08',  name:'Verify & close',       a:148, b:170, src:'capture',
+  {n:'08',  name:'Verify & close',       a:132, b:152, src:'capture',
    how:'Follow-ups: submit the after photo, read the verification summary, Approve closure, Download report.'},
-  {n:'09',  name:'Live now',             a:170, b:180, src:'reel',
-   how:'Closing card with the stack and both links.'}
+  {n:'09',  name:'Site Insights',        a:152, b:170, src:'capture',
+   how:'Site Insights: hold on the computed counters, click Generate, then scroll the focus areas and blind spots.'},
+  {n:'10',  name:'Live now',             a:170, b:180, src:'reel',
+   how:'Closing card with the team, the stack and both links.'}
 ];
 
 const JSON_SRC = [
@@ -1175,12 +1235,12 @@ function render(){
   /* S4: app → pipeline, JSON typing */
   if(sc.id==='s4'){
     const app=document.getElementById('s4app'), pipe=document.getElementById('s4pipe');
-    const toPipe = seg(L,13.2,14.4);
+    const toPipe = seg(L,11.5,12.7);
     app.style.opacity = 1-toPipe;
     app.style.transform = `scale(${1-0.05*toPipe})`;
     pipe.style.opacity = toPipe;
     pipe.style.transform = `scale(${0.96+0.04*toPipe})`;
-    const typed = Math.floor(JSON_LEN * seg(L, 23.5, 35.5));
+    const typed = Math.floor(JSON_LEN * seg(L, 20, 30.5));
     const out=document.getElementById('jsonOut');
     if(out.dataset.n!==String(typed)){ out.dataset.n=String(typed); out.innerHTML = jsonHTML(typed); }
   }
