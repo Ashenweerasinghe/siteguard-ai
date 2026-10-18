@@ -1,10 +1,10 @@
 # SiteGuard AI -- by Ceylon InnovAI
 
-AI-assisted construction-site hazard review. A reviewer uploads a site photo and
-voice note, Gemini flags potential hazards and proposes a risk level, and a human
-confirms every state change -- hazard confirmed, action assigned, closure. On a
-later visit, new evidence is compared against the original finding and Gemini
-recommends (with human approval) whether the hazard is closed.
+AI-assisted hazard review for factory floors, warehouses and industrial sites. A reviewer uploads a site photo and
+voice note, Gemini flags potential hazards and proposes a risk level, and a human confirms every state change --
+hazard confirmed, action assigned, closure. On a later visit, new evidence is compared against the original finding
+and Gemini recommends (with human approval) whether the hazard is closed. Site Insights gives managers a
+Gemini briefing across the whole register.
 
 Non-negotiables:
 - The AI proposes; a human approves every state change.
